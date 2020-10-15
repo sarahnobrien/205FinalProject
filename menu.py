@@ -120,9 +120,9 @@ def gomoku_rules():
     rule_display = pygame.display.set_mode((600, 400))
     pygame.display.set_caption('Rules')
     font = pygame.font.Font('freesansbold.ttf', 32)
-    text1 = font.render('First get five chain will win', True, (255, 255, 0))
+    text1 = font.render('First get five chain will win', True, (255, 0, 0))
     textRect1 = text1.get_rect()
-    textRect1.center = (300, 500)
+    textRect1.center = (300, 200)
     while True :
         rule_display.fill((0, 255, 0))  
         rule_display.blit(text1, textRect1)

@@ -1,5 +1,6 @@
 import pygame
 import pygame_menu
+import webbrowser
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 difficultyGet = [1]
@@ -81,6 +82,10 @@ def start_the_game():
     
 
 def about_us():
+    def githubLink():
+        webbrowser.open("https://github.com/sarahnobrien/205FinalProject")
+    def trelloLink():
+        webbrowser.open("https://trello.com/b/pvtiJr5s/cs205-team-2")
     green = (0, 255, 0) 
     blue = (0, 0, 225) 
     pygame.init()
@@ -103,16 +108,36 @@ def about_us():
     text4 = font.render('Nevin', True, green, (0,0,0))
     textRect4 = text4.get_rect()
     textRect4.center = (300, 300)
-    while True : 
+    textGit = font.render('Github Link', True, (0,0,0))
+    textTrello = font.render('Trello Link', True, (0,0,0))
+
+    
+    while True :
+        mouse = pygame.mouse.get_pos()
         display_surface.fill((220,220,220))
         display_surface.blit(text0, textRect0)
         display_surface.blit(text1, textRect1)
         display_surface.blit(text2, textRect2)
         display_surface.blit(text3, textRect3)
-        display_surface.blit(text4, textRect4) 
+        display_surface.blit(text4, textRect4)
+        if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40: 
+            pygame.draw.rect(display_surface,(255, 0, 0),[50,350,190,40]) 
+        else: 
+            pygame.draw.rect(display_surface,(0, 255, 0),[50,350,190,40])
+        if 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40: 
+            pygame.draw.rect(display_surface,(255, 0, 0),[400,350,170,40]) 
+        else: 
+            pygame.draw.rect(display_surface,(0, 255, 0),[400,350,170,40]) 
+        display_surface.blit(textGit, (50,350))
+        display_surface.blit(textTrello, (400,350))
         for event in pygame.event.get() : 
             if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)  
+                menu.mainloop(surface)
+            if event.type == pygame.MOUSEBUTTONDOWN: 
+                if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40:  
+                    githubLink()
+                elif 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40:
+                    trelloLink()
             pygame.display.update()
     
 def gomoku_rules():

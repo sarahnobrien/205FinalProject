@@ -19,6 +19,21 @@ class Intersection:
     def setOwner(self, owner):
         self.owner = owner
 
+    def getX(self):
+        return self.left
+
+    def getY(self):
+        return self.top
+
+    def getXY(self):
+        return self.left, self.top
+
+    def wasClicked(self, x, y):
+        if self.left < x < (self.left + self.width):
+            if self.top < y < (self.top + self.length):
+                return True
+        return False
+
     def click(self):
         self.hasStone = True
 
@@ -34,4 +49,4 @@ class Intersection:
             color = self.cpuColor
         else:
             color = self.playerColor
-        pygame.draw.circle(surface, color, (self.left + (self.width/2), self.top + (self.length/2)), self.stoneRadius)
+        pygame.draw.circle(surface, color, (int(self.left+self.width/2), int(self.top+self.width/2)), self.stoneRadius)

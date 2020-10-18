@@ -1,6 +1,7 @@
 import pygame
 import pygame_menu
 import webbrowser
+
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 difficultyGet = [1]
@@ -144,13 +145,35 @@ def gomoku_rules():
     pygame.init()
     rule_display = pygame.display.set_mode((600, 400))
     pygame.display.set_caption('Rules')
-    font = pygame.font.Font('freesansbold.ttf', 32)
-    text1 = font.render('First get five chain will win', True, (255, 0, 0))
+    font = pygame.font.Font('freesansbold.ttf', 16)
+    fontBig = pygame.font.Font('freesansbold.ttf', 20)
+    text0 = fontBig.render('RULES', True, (255, 0, 0))
+    textRect0 = text0.get_rect()
+    textRect0.center = (300, 50)
+    text1 = font.render('Stones are placed in the board’s intersections.', True, (0, 0, 0))
     textRect1 = text1.get_rect()
-    textRect1.center = (300, 200)
+    textRect1.center = (300, 100)
+    text2 = font.render('During the game, player 1 and the CPU will alternate turns, ' , True, (0, 0, 0))
+    textRect2 = text2.get_rect()
+    textRect2.center = (300, 150)
+    text3 = font.render('each placing one of their stones on the board.' , True, (0, 0, 0))
+    textRect3 = text3.get_rect()
+    textRect3.center = (300, 200)
+    text4 = font.render('To win, you must be the first player to create ', True, (0, 0, 0))
+    textRect4 = text4.get_rect()
+    textRect4.center = (300, 250)
+    text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
+    textRect5 = text5.get_rect()
+    textRect5.center = (300, 300)
+
     while True :
-        rule_display.fill((0, 255, 0))  
+        rule_display.fill((255, 255, 255))
+        rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)
+        rule_display.blit(text2, textRect2)
+        rule_display.blit(text3, textRect3)
+        rule_display.blit(text4, textRect4)
+        rule_display.blit(text5, textRect5)
         for event in pygame.event.get() : 
             if event.type == pygame.KEYDOWN: 
                 menu.mainloop(surface)  
@@ -158,7 +181,7 @@ def gomoku_rules():
     
     
     
-menu = pygame_menu.Menu(300, 600, 'GOMOKU',
+menu = pygame_menu.Menu(400, 600, 'GOMOKU',
                        theme=pygame_menu.themes.THEME_GREEN)
 
 

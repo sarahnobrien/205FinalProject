@@ -4,6 +4,7 @@ import pygame_menu
 import sys
 import time
 import webbrowser
+
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 difficultyGet = [1]
@@ -209,7 +210,9 @@ def gomoku_rules():
             pygame.display.update()
     
     
+
 menu = pygame_menu.Menu(300, 600, 'GOMOKU',
+
                        theme=pygame_menu.themes.THEME_GREEN)
 
 

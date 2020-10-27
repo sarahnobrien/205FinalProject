@@ -1,5 +1,8 @@
 import pygame
+import random
 import pygame_menu
+import sys
+import time
 import webbrowser
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
@@ -9,77 +12,104 @@ def set_difficulty(value, difficulty):
 
 def start_the_game():
     pygame.init()
+    size = screenWidth,screenHeight = 1100,800
+    screen = pygame.display.set_mode(size)
+    rows, cols = (15, 15)
+    gameboard=[]
+    checker = []
+    checker.append(1)
+    iGet = []
+    jGet = []
+    ii = 0
+    jj = 0
+    font = pygame.font.Font('freesansbold.ttf', 50)
+    
+    for i in range(cols): 
+        col = []
+        col2 = []
+        for j in range(rows): 
+            col.append(0)
+            col2.append(1)
+        gameboard.append(col)
+        checker.append(col2)
+    textRestart = font.render('Restart', True, (0,0,0))
+    textExit = font.render('Exit', True, (0,0,0))
+    
+    def draw():
+        for i in range(cols):
+            for j in range(rows):
+                pygame.draw.line(screen,(0,0,0),(0,50 + 50*i),(800,50 + 50*i),2)
+                pygame.draw.line(screen,(0,0,0),(50 + 50*j,0),(50 + 50*j,800),2)
+        pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
+        if not(len(iGet) == 0 and len(jGet) == 0):
+            for i in range(len(iGet)):
+                pygame.draw.circle(screen, (0,0,0), (50 + 50*iGet[i],50 + 50*jGet[i]), 20)
+        for i in range(cols):
+            for j in range(rows):
+                if gameboard[i][j] == 2:
+                    pygame.draw.circle(screen, (255,255,255), (50 + 50*i,50 + 50*j), 20)
+        if 900 <= m[0] <= 1090 and 300 <= m[1] <= 355: 
+            pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
+        else: 
+            pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
+        if 900 <= m[0] <= 1090 and 600 <= m[1] <= 655: 
+            pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
+        else: 
+            pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55]) 
 
-    # All neccessary attributes
-    nBoxes = 19
-    boxMargin = 1
-    boxWidth = 30
-    boxLength = 30
-    pieceRadius = 8
-    windowWidth = (boxWidth + boxMargin) * nBoxes
-    windowLength = (boxLength + boxMargin) * nBoxes
-    turnOne = True
+        screen.blit(textRestart, (900,300))
+        screen.blit(textExit, (900,600))
+        pygame.display.flip()
+        
+    def restart():
+        start_the_game()
+    def exitGame():
+        sys.exit()
+    #For first sprint, we assume user first (black), and computer part will be sprint 2
+    
+    while True:
+        m = pygame.mouse.get_pos()
+        screen.fill((255, 255, 0))
+        draw()
 
-    pygame.display.set_caption('Gomoku')
-    screen = pygame.display.init()
-    windowSurface = pygame.display.set_mode((windowLength, windowWidth))
-    background = pygame.Surface((windowWidth, windowLength))
-    background.fill(pygame.Color(0,0,0))
-    foreground = pygame.Surface((windowWidth,windowLength))
-
-
-    is_running = True
-
-    while is_running:
-        x = 0
-        y = 0
-        rowDepth = 0
-
-        for i in range(nBoxes * nBoxes):
-            pygame.draw.rect(background, (255,255,255), (x,y,boxWidth, boxLength))
-            x += (boxWidth + boxMargin)
-            rowDepth += 1
-
-            if rowDepth == 19:
-                rowDepth = 0
-                x = 0
-                y = y + (boxLength + boxMargin)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                is_running = False
+        for event in pygame.event.get() : 
             if event.type == pygame.KEYDOWN:
-                windowSurface = pygame.display.set_mode((600, 400))
-                menu.mainloop(surface) 
-            # Logic for alternating between black and white pieces
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                pieceX, pieceY = pygame.mouse.get_pos()
+                screen = pygame.display.set_mode((600, 400))
+                menu.mainloop(surface)
+            if event.type == pygame.MOUSEBUTTONDOWN: 
+                for i in range(cols):
+                    for j in range(rows):
+                        if 50 + 50*i - 20 <= m[0] <= 50 + 50*i + 20 and 50 + 50*j - 20 <= m[1] <= 50 + 50*j+20:
+                            checker[0] = 0
+                            gameboard[i][j] = 1
+                            iGet.append(i)
+                            jGet.append(j)
+                            ii = random.randint(0,14)
+                            jj = random.randint(0,14)
+                            checkIt = 0
+                            if not(len(iGet) == 0 and len(jGet) == 0):
+                                for i in range(len(iGet)):
+                                    if ii == iGet[i] and jj == jGet[i]:
+                                        checkIt = 1
+                            while checkIt == 1:
+                                ii = random.randint(0,14)
+                                jj = random.randint(0,14)
+                                checkIt = 0
+                                if not(len(iGet) == 0 and len(jGet) == 0):
+                                    for i in range(len(iGet)):
+                                        if ii == iGet[i] and jj == jGet[i]:
+                                            checkIt = 1
+                            gameboard[ii][jj] = 2
+            if event.type == pygame.MOUSEBUTTONDOWN: 
+                if 900 <= m[0] <= 1090 and 300 <= m[1] <= 355:  
+                    restart()
+                elif 900 <= m[0] <= 1090 and 600 <= m[1] <= 655:
+                    pygame.quit()
+                    exitGame()
 
-                # Define piece colours
-                pieceOne = (0,128,128)
-                pieceTwo = (128,0,128)
+                        
+            pygame.display.update()
 
-                # Draw white piece
-                if turnOne:
-                    pygame.draw.circle(foreground, pieceOne, (pieceX,pieceY), pieceRadius)
-                    turnOne = False
-
-                # Draw black piece
-                else:
-                    pygame.draw.circle(foreground, pieceTwo, (pieceX, pieceY), pieceRadius)
-                    turnOne = True
-                #print("Mouse down at (%d, %d)" % event.pos)
-
-
-        windowSurface.blit(background, (0, 0))
-        foreground.set_alpha(100)
-        windowSurface.blit(foreground, (0, 0))
-
-
-        pygame.display.update()
-    
-
-    
 
 def about_us():
     def githubLink():
@@ -144,18 +174,39 @@ def gomoku_rules():
     pygame.init()
     rule_display = pygame.display.set_mode((600, 400))
     pygame.display.set_caption('Rules')
-    font = pygame.font.Font('freesansbold.ttf', 32)
-    text1 = font.render('First get five chain will win', True, (255, 0, 0))
+    font = pygame.font.Font('freesansbold.ttf', 16)
+    fontBig = pygame.font.Font('freesansbold.ttf', 20)
+    text0 = fontBig.render('RULES', True, (255, 0, 0))
+    textRect0 = text0.get_rect()
+    textRect0.center = (300, 50)
+    text1 = font.render('Stones are placed in the board’s intersections.', True, (0, 0, 0))
     textRect1 = text1.get_rect()
-    textRect1.center = (300, 200)
+    textRect1.center = (300, 100)
+    text2 = font.render('During the game, player 1 and the CPU will alternate turns, ' , True, (0, 0, 0))
+    textRect2 = text2.get_rect()
+    textRect2.center = (300, 150)
+    text3 = font.render('each placing one of their stones on the board.' , True, (0, 0, 0))
+    textRect3 = text3.get_rect()
+    textRect3.center = (300, 200)
+    text4 = font.render('To win, you must be the first player to create ', True, (0, 0, 0))
+    textRect4 = text4.get_rect()
+    textRect4.center = (300, 250)
+    text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
+    textRect5 = text5.get_rect()
+    textRect5.center = (300, 300)
+
     while True :
-        rule_display.fill((0, 255, 0))  
+        rule_display.fill((255, 255, 255))
+        rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)
+        rule_display.blit(text2, textRect2)
+        rule_display.blit(text3, textRect3)
+        rule_display.blit(text4, textRect4)
+        rule_display.blit(text5, textRect5)
         for event in pygame.event.get() : 
             if event.type == pygame.KEYDOWN: 
                 menu.mainloop(surface)  
             pygame.display.update()
-    
     
     
 menu = pygame_menu.Menu(300, 600, 'GOMOKU',

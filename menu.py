@@ -173,7 +173,7 @@ def about_us():
     
 def gomoku_rules():
     pygame.init()
-    rule_display = pygame.display.set_mode((600, 400))
+    rule_display = pygame.display.set_mode((400, 600))
     pygame.display.set_caption('Rules')
     font = pygame.font.Font('freesansbold.ttf', 16)
     fontBig = pygame.font.Font('freesansbold.ttf', 20)
@@ -211,7 +211,7 @@ def gomoku_rules():
     
     
 
-menu = pygame_menu.Menu(300, 600, 'GOMOKU',
+menu = pygame_menu.Menu(400, 600, 'GOMOKU',
 
                        theme=pygame_menu.themes.THEME_GREEN)
 

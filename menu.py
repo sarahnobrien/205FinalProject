@@ -4,6 +4,7 @@ import pygame_menu
 import sys
 import time
 import webbrowser
+from Intersection import Intersection
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
@@ -13,47 +14,69 @@ def set_difficulty(value, difficulty):
 
 def start_the_game():
     pygame.init()
-    size = screenWidth, screenHeight = 1100,800
-    screen = pygame.display.set_mode(size)
+    size = screenWidth,screenHeight = 1100,800
+
+    boxWidth = 50
+    stoneRadius = 20
     rows, cols = (15, 15)
+
+    screen = pygame.display.set_mode(size)
+
+    objectGameBoard = []
     gameboard=[]
     checker = []
     checker.append(1)
+    #iget and jget hold the intersections that have stones (i, j)
     iGet = []
     jGet = []
     ii = 0
     jj = 0
     font = pygame.font.Font('freesansbold.ttf', 50)
+    cpuTurn = False
     
-    for i in range(cols): 
-        col = []
-        col2 = []
-        for j in range(rows): 
-            col.append(0)
-            col2.append(1)
-        gameboard.append(col)
-        checker.append(col2)
+    for i in range(rows):
+        objectRow = []
+        row = []
+        row2 = []
+        for j in range(cols):
+            x = int(i * boxWidth + (boxWidth/2))
+            y = int(j * boxWidth + (boxWidth/2))
+            intersection = Intersection(x, y, boxWidth, stoneRadius)
+            objectRow.append(intersection)
+            row.append(0)
+            row2.append(1)
+        objectGameBoard.append(objectRow)
+        gameboard.append(row)
+        checker.append(row2)
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
-    
+
+
     def draw():
+        #drawing the lines for the intersections
         for i in range(cols):
             for j in range(rows):
-                pygame.draw.line(screen,(0,0,0),(0,50 + 50*i),(800,50 + 50*i),2)
-                pygame.draw.line(screen,(0,0,0),(50 + 50*j,0),(50 + 50*j,800),2)
+                pygame.draw.line(screen,(0,0,0),(0,boxWidth + boxWidth*i),(800,boxWidth + boxWidth*i),2)
+                pygame.draw.line(screen,(0,0,0),(boxWidth + boxWidth*j,0),(boxWidth + boxWidth*j,800),2)
         pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
-        if not(len(iGet) == 0 and len(jGet) == 0):
-            for i in range(len(iGet)):
-                pygame.draw.circle(screen, (0,0,0), (50 + 50*iGet[i],50 + 50*jGet[i]), 20)
+
+        #Drawing the stones on the board
+        #iGet and jGet hold the i and j choordinates of the intersections that have stones
+        #if not(len(iGet) == 0 and len(jGet) == 0):
+            #for i in range(len(iGet)):
+                #pygame.draw.circle(screen, (0,0,0), (50 + 50*iGet[i],50 + 50*jGet[i]), 20)
         for i in range(cols):
             for j in range(rows):
-                if gameboard[i][j] == 2:
-                    pygame.draw.circle(screen, (255,255,255), (50 + 50*i,50 + 50*j), 20)
-        if 900 <= m[0] <= 1090 and 300 <= m[1] <= 355: 
+                #if gameboard[i][j] == 2:
+                    #pygame.draw.circle(screen, (255,255,255), (50 + 50*i,50 + 50*j), 20)
+                objectGameBoard[i][j].draw(screen)
+
+        #Not sure what these rectangles are for
+        if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
             pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
-        if 900 <= m[0] <= 1090 and 600 <= m[1] <= 655: 
+        if 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
             pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55]) 
@@ -61,7 +84,7 @@ def start_the_game():
         screen.blit(textRestart, (900,300))
         screen.blit(textExit, (900,600))
         pygame.display.flip()
-        
+
     def restart():
         start_the_game()
     def exitGame():
@@ -69,9 +92,19 @@ def start_the_game():
     #For first sprint, we assume user first (black), and computer part will be sprint 2
     
     while True:
-        m = pygame.mouse.get_pos()
+        mousePos = pygame.mouse.get_pos()
         screen.fill((255, 255, 0))
         draw()
+
+        #game logic function calls will go here
+        if(cpuTurn):
+            player = "CPU"
+            cpuTurn = False
+
+            #cpuMove()
+        else:
+            player = "player"
+            cpuTurn = True
 
         for event in pygame.event.get() : 
             if event.type == pygame.KEYDOWN:
@@ -80,11 +113,15 @@ def start_the_game():
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
-                        if 50 + 50*i - 20 <= m[0] <= 50 + 50*i + 20 and 50 + 50*j - 20 <= m[1] <= 50 + 50*j+20:
+                        #finding the intersection that was clicked
+                        #not sure what the 20 is for
+                        if boxWidth + boxWidth*i - 20 <= mousePos[0] <= boxWidth + boxWidth*i + 20 and boxWidth + boxWidth*j - 20 <= mousePos[1] <= boxWidth + boxWidth*j+20:
                             checker[0] = 0
+                            objectGameBoard[i][j].click(player)
                             gameboard[i][j] = 1
                             iGet.append(i)
                             jGet.append(j)
+                            #choosing a random place for cpu piece
                             ii = random.randint(0,14)
                             jj = random.randint(0,14)
                             checkIt = 0
@@ -100,11 +137,12 @@ def start_the_game():
                                     for i in range(len(iGet)):
                                         if ii == iGet[i] and jj == jGet[i]:
                                             checkIt = 1
+
                             gameboard[ii][jj] = 2
             if event.type == pygame.MOUSEBUTTONDOWN: 
-                if 900 <= m[0] <= 1090 and 300 <= m[1] <= 355:  
+                if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
                     restart()
-                elif 900 <= m[0] <= 1090 and 600 <= m[1] <= 655:
+                elif 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
                     pygame.quit()
                     exitGame()
 
@@ -211,7 +249,7 @@ def gomoku_rules():
     
     
 
-menu = pygame_menu.Menu(300, 600, 'GOMOKU',
+menu = pygame_menu.Menu(400, 600, 'GOMOKU',
 
                        theme=pygame_menu.themes.THEME_GREEN)
 

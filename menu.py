@@ -13,7 +13,7 @@ def set_difficulty(value, difficulty):
 
 def start_the_game():
     pygame.init()
-    size = screenWidth,screenHeight = 1100,800
+    size = screenWidth, screenHeight = 1100,800
     screen = pygame.display.set_mode(size)
     rows, cols = (15, 15)
     gameboard=[]

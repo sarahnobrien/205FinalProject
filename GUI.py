@@ -5,6 +5,7 @@ import sys
 import time
 import webbrowser
 from Intersection import Intersection
+import Game
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
@@ -19,6 +20,7 @@ def start_the_game():
     boxWidth = 50
     stoneRadius = 20
     rows, cols = (15, 15)
+    clickMarginOfError  = 20
 
     screen = pygame.display.set_mode(size)
 
@@ -26,14 +28,10 @@ def start_the_game():
     gameboard=[]
     checker = []
     checker.append(1)
-    #iget and jget hold the intersections that have stones (i, j)
-    iGet = []
-    jGet = []
-    ii = 0
-    jj = 0
     font = pygame.font.Font('freesansbold.ttf', 50)
     cpuTurn = False
-    
+
+    # Creates game board TODO: Move to Game.py
     for i in range(rows):
         objectRow = []
         row = []
@@ -61,17 +59,12 @@ def start_the_game():
         pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
 
         #Drawing the stones on the board
-        #iGet and jGet hold the i and j choordinates of the intersections that have stones
-        #if not(len(iGet) == 0 and len(jGet) == 0):
-            #for i in range(len(iGet)):
-                #pygame.draw.circle(screen, (0,0,0), (50 + 50*iGet[i],50 + 50*jGet[i]), 20)
+
         for i in range(cols):
             for j in range(rows):
-                #if gameboard[i][j] == 2:
-                    #pygame.draw.circle(screen, (255,255,255), (50 + 50*i,50 + 50*j), 20)
                 objectGameBoard[i][j].draw(screen)
 
-        #Not sure what these rectangles are for
+        # Restart and exit button
         if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
             pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
         else: 
@@ -96,16 +89,6 @@ def start_the_game():
         screen.fill((255, 255, 0))
         draw()
 
-        #game logic function calls will go here
-        if(cpuTurn):
-            player = "CPU"
-            cpuTurn = False
-
-            #cpuMove()
-        else:
-            player = "player"
-            cpuTurn = True
-
         for event in pygame.event.get() : 
             if event.type == pygame.KEYDOWN:
                 screen = pygame.display.set_mode((600, 400))
@@ -115,30 +98,16 @@ def start_the_game():
                     for j in range(rows):
                         #finding the intersection that was clicked
                         #not sure what the 20 is for
-                        if boxWidth + boxWidth*i - 20 <= mousePos[0] <= boxWidth + boxWidth*i + 20 and boxWidth + boxWidth*j - 20 <= mousePos[1] <= boxWidth + boxWidth*j+20:
+                        if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
+                                and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             checker[0] = 0
-                            objectGameBoard[i][j].click(player)
-                            gameboard[i][j] = 1
-                            iGet.append(i)
-                            jGet.append(j)
-                            #choosing a random place for cpu piece
-                            ii = random.randint(0,14)
-                            jj = random.randint(0,14)
-                            checkIt = 0
-                            if not(len(iGet) == 0 and len(jGet) == 0):
-                                for i in range(len(iGet)):
-                                    if ii == iGet[i] and jj == jGet[i]:
-                                        checkIt = 1
-                            while checkIt == 1:
-                                ii = random.randint(0,14)
-                                jj = random.randint(0,14)
-                                checkIt = 0
-                                if not(len(iGet) == 0 and len(jGet) == 0):
-                                    for i in range(len(iGet)):
-                                        if ii == iGet[i] and jj == jGet[i]:
-                                            checkIt = 1
+                            objectGameBoard[i][j].click("player")
 
-                            gameboard[ii][jj] = 2
+                            #TODO: Game.placePiece(i, j)
+
+
+
+            # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
                     restart()
@@ -180,7 +149,7 @@ def about_us():
     textGit = font.render('Github Link', True, (0,0,0))
     textTrello = font.render('Trello Link', True, (0,0,0))
 
-    
+    # Button behavior
     while True :
         mouse = pygame.mouse.get_pos()
         display_surface.fill((220,220,220))

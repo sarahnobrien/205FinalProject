@@ -1,19 +1,61 @@
-import Intersection
+from Intersection import Intersection
+import random
 
-def placePiece(xCoord, yCoord):
+class Game:
+    global rows, cols, boxWidth, stoneRadius
+    rows = 15
+    cols = 15
+    boxWidth = 50
+    stoneRadius = 20
+    objectGameBoard = []
 
-    # PSUEDO place piece
-    i = 0
-    j = 0
-    check = [False]
-    countfiv = [0, 0, 0, 0]
+    def __init__(self):
+        self.rows = 15
+        self.cols = 15
+        self.boxWidth = 50
+        self.objectGameBoard
+        self.stoneRadius = 20
 
-    def countfive():
+    def StartGameBoard(self):
+        for i in range(rows):
+            objectRow = []
+            row = []
+            row2 = []
+            for j in range(cols):
+                x = int(i * boxWidth + (boxWidth/2))
+                y = int(j * boxWidth + (boxWidth/2))
+                intersection = Intersection(x, y, boxWidth, stoneRadius)
+                objectRow.append(intersection)
+                row.append(0)
+                row2.append(1)
+            self.objectGameBoard.append(objectRow)
+
+    def getGameBoard(self):
+        return self.objectGameBoard
+
+    def placePieceCPU(self):
+
+        piecePlaced = False
+        while not piecePlaced:
+            randColumn = random.randint(0, 14)
+            randRow = random.randint(0, 14)
+
+            if not self.getGameBoard()[randColumn][randRow].hasStone:
+                self.getGameBoard()[randColumn][randRow].click("CPU")
+                piecePlaced = True
+
+
+    def countfive(self):
+
+        # i = 0
+        # j = 0
+        # check = [False]
+        # countfiv = [0, 0, 0, 0]
         global i, j, countfiv, arrayi, check
         icheck = i
         jcheck = j
         c = 0
-        if arrayi[i][j]:
+        if arrayi[i][j] == 1:
             while icheck <= 14 and jcheck <= 14:
                 if arrayi[icheck][jcheck] == 1:
                     c += 1

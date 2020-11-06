@@ -5,7 +5,7 @@ import sys
 import time
 import webbrowser
 from Intersection import Intersection
-import Game
+from Game import Game
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
@@ -17,40 +17,27 @@ def start_the_game():
     pygame.init()
     size = screenWidth,screenHeight = 1100,800
 
-    boxWidth = 50
-    stoneRadius = 20
-    rows, cols = (15, 15)
-    clickMarginOfError  = 20
+    # Start the gameboard
+    game = Game()
+    game.StartGameBoard()
+
+    clickMarginOfError = 20
 
     screen = pygame.display.set_mode(size)
 
-    objectGameBoard = []
-    gameboard=[]
-    checker = []
-    checker.append(1)
     font = pygame.font.Font('freesansbold.ttf', 50)
     cpuTurn = False
 
     # Creates game board TODO: Move to Game.py
-    for i in range(rows):
-        objectRow = []
-        row = []
-        row2 = []
-        for j in range(cols):
-            x = int(i * boxWidth + (boxWidth/2))
-            y = int(j * boxWidth + (boxWidth/2))
-            intersection = Intersection(x, y, boxWidth, stoneRadius)
-            objectRow.append(intersection)
-            row.append(0)
-            row2.append(1)
-        objectGameBoard.append(objectRow)
-        gameboard.append(row)
-        checker.append(row2)
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
 
 
     def draw():
+        global rows, cols, boxWidth
+        rows = 15
+        cols = 15
+        boxWidth = 50
         #drawing the lines for the intersections
         for i in range(cols):
             for j in range(rows):
@@ -62,7 +49,7 @@ def start_the_game():
 
         for i in range(cols):
             for j in range(rows):
-                objectGameBoard[i][j].draw(screen)
+                game.getGameBoard()[i][j].draw(screen)
 
         # Restart and exit button
         if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
@@ -100,10 +87,9 @@ def start_the_game():
                         #not sure what the 20 is for
                         if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
-                            checker[0] = 0
-                            objectGameBoard[i][j].click("player")
+                            game.getGameBoard()[i][j].click("player")
 
-                            #TODO: Game.placePiece(i, j)
+                            game.placePieceCPU()
 
 
 

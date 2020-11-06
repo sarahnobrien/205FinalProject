@@ -4,11 +4,9 @@ import pygame_menu
 import sys
 import time
 import webbrowser
-<<<<<<< HEAD:GUI.py
 from Intersection import Intersection
 from Game import Game
-=======
->>>>>>> 146c304bd33885edc338fce1c383f2700b2c8ac4:menu.py
+
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))

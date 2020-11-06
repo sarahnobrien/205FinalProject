@@ -31,7 +31,7 @@ def start_the_game():
     # Creates game board TODO: Move to Game.py
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
-
+    textMenu = font.render('Menu', True, (0, 0, 0))
 
     def draw():
         global rows, cols, boxWidth
@@ -59,14 +59,23 @@ def start_the_game():
         if 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
             pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
         else: 
-            pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55]) 
+            pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55])
+
+        if 900 <= mousePos[0] <= 1090 and 450 <= mousePos[1] <= 655: #this one is for "go back to menu"
+            pygame.draw.rect(screen, (255, 0, 0), [900, 450, 150, 55])
+        else:
+            pygame.draw.rect(screen, (0, 255, 0), [900, 450, 150, 55])
 
         screen.blit(textRestart, (900,300))
         screen.blit(textExit, (900,600))
+        screen.blit(textMenu, (900, 450))
         pygame.display.flip()
 
     def restart():
         start_the_game()
+    def menuFromGame():
+        surface = pygame.display.set_mode((600, 400))
+        menu.mainloop(surface)
     def exitGame():
         sys.exit()
     #For first sprint, we assume user first (black), and computer part will be sprint 2
@@ -100,9 +109,13 @@ def start_the_game():
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
                     restart()
+                elif 900 <= mousePos[0] <= 1090 and 400 <= mousePos[1] <= 555:
+                    surface = pygame.display.set_mode((600, 400))
+                    menu.mainloop(surface)
                 elif 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
                     pygame.quit()
                     exitGame()
+
 
                         
             pygame.display.update()

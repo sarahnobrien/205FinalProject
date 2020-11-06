@@ -28,7 +28,6 @@ def start_the_game():
     font = pygame.font.Font('freesansbold.ttf', 50)
     cpuTurn = False
 
-    # Creates game board TODO: Move to Game.py
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))

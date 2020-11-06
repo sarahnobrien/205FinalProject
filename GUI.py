@@ -10,8 +10,11 @@ from Game import Game
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 difficultyGet = [1]
+
+
 def set_difficulty(value, difficulty):
     difficultyGet[0] = difficulty
+
 
 def start_the_game():
     pygame.init()
@@ -38,14 +41,15 @@ def start_the_game():
         rows = 15
         cols = 15
         boxWidth = 50
-        #drawing the lines for the intersections
+
+        # drawing the lines for the intersections
         for i in range(cols):
             for j in range(rows):
                 pygame.draw.line(screen,(0,0,0),(0,boxWidth + boxWidth*i),(800,boxWidth + boxWidth*i),2)
                 pygame.draw.line(screen,(0,0,0),(boxWidth + boxWidth*j,0),(boxWidth + boxWidth*j,800),2)
         pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
 
-        #Drawing the stones on the board
+        # Drawing the stones on the board
 
         for i in range(cols):
             for j in range(rows):
@@ -73,12 +77,15 @@ def start_the_game():
 
     def restart():
         start_the_game()
+
     def menuFromGame():
+
         surface = pygame.display.set_mode((600, 400))
         menu.mainloop(surface)
+
     def exitGame():
         sys.exit()
-    #For first sprint, we assume user first (black), and computer part will be sprint 2
+    # For first sprint, we assume user first (black), and computer part will be sprint 2
     
     while True:
         mousePos = pygame.mouse.get_pos()
@@ -92,8 +99,8 @@ def start_the_game():
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
-                        #finding the intersection that was clicked
-                        #not sure what the 20 is for
+
+                        # finding the intersection that was clicked
                         if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             if game.getTurn() == "player":
@@ -116,14 +123,13 @@ def start_the_game():
                     pygame.quit()
                     exitGame()
 
-
-                        
             pygame.display.update()
 
 
 def about_us():
     def githubLink():
         webbrowser.open("https://github.com/sarahnobrien/205FinalProject")
+
     def trelloLink():
         webbrowser.open("https://trello.com/b/pvtiJr5s/cs205-team-2")
     green = (0, 255, 0) 
@@ -152,7 +158,7 @@ def about_us():
     textTrello = font.render('Trello Link', True, (0,0,0))
 
     # Button behavior
-    while True :
+    while True:
         mouse = pygame.mouse.get_pos()
         display_surface.fill((220,220,220))
         display_surface.blit(text0, textRect0)
@@ -179,7 +185,8 @@ def about_us():
                 elif 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40:
                     trelloLink()
             pygame.display.update()
-    
+
+
 def gomoku_rules():
     pygame.init()
     rule_display = pygame.display.set_mode((600, 400))
@@ -218,10 +225,8 @@ def gomoku_rules():
                 menu.mainloop(surface)  
             pygame.display.update()
     
-    
 
 menu = pygame_menu.Menu(400, 600, 'GOMOKU',
-
                        theme=pygame_menu.themes.THEME_GREEN)
 
 

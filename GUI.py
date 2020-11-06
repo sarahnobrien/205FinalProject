@@ -84,7 +84,7 @@ def start_the_game():
                 for i in range(cols):
                     for j in range(rows):
                         #finding the intersection that was clicked
-                        #not sure what the 20 is for
+                        # not sure what the 20 is for
                         if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             game.getGameBoard()[i][j].click("player")
@@ -101,7 +101,6 @@ def start_the_game():
                     pygame.quit()
                     exitGame()
 
-                        
             pygame.display.update()
 
 
@@ -202,10 +201,8 @@ def gomoku_rules():
                 menu.mainloop(surface)  
             pygame.display.update()
     
-    
 
 menu = pygame_menu.Menu(400, 600, 'GOMOKU',
-
                        theme=pygame_menu.themes.THEME_GREEN)
 
 

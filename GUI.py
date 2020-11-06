@@ -87,9 +87,12 @@ def start_the_game():
                         #not sure what the 20 is for
                         if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
-                            game.getGameBoard()[i][j].click("player")
+                            if game.getTurn() == "player":
+                                game.getGameBoard()[i][j].click("player")
+                                game.setTurn("CPU")
+                                game.placePieceCPU()
 
-                            game.placePieceCPU()
+
 
 
 

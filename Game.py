@@ -1,3 +1,5 @@
+from time import sleep
+
 from Intersection import Intersection
 import random
 
@@ -15,6 +17,7 @@ class Game:
         self.boxWidth = 50
         self.objectGameBoard
         self.stoneRadius = 20
+        self.turn = "player"
 
     def StartGameBoard(self):
         for i in range(rows):
@@ -33,6 +36,12 @@ class Game:
     def getGameBoard(self):
         return self.objectGameBoard
 
+    def getTurn(self):
+        return self.turn
+
+    def setTurn(self, player):
+        self.turn = player
+
     def placePieceCPU(self):
 
         piecePlaced = False
@@ -43,6 +52,7 @@ class Game:
             if not self.getGameBoard()[randColumn][randRow].hasStone:
                 self.getGameBoard()[randColumn][randRow].click("CPU")
                 piecePlaced = True
+                self.setTurn("player")
 
 
     def countfive(self):

@@ -85,9 +85,8 @@ def start_the_game():
         draw()
 
         for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN:
-                screen = pygame.display.set_mode((600, 400))
-                menu.mainloop(surface)
+            # if event.type == pygame.KEYDOWN:
+            #     menu.mainloop(surface)
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
@@ -148,7 +147,10 @@ def about_us():
     textRect4 = text4.get_rect()
     textRect4.center = (300, 300)
     textGit = font.render('Github Link', True, (0,0,0))
+    textMenu = font.render('Menu', True, (0, 0, 0))
     textTrello = font.render('Trello Link', True, (0,0,0))
+
+
 
     # Button behavior
     while True :
@@ -163,18 +165,27 @@ def about_us():
             pygame.draw.rect(display_surface,(255, 0, 0),[50,350,190,40]) 
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[50,350,190,40])
+
+        if 270 <= mouse[0] <= 270+110 and 350 <= mouse[1] <= 350+40:
+            pygame.draw.rect(display_surface,(255, 0, 0),[260,350,110,40])
+        else:
+            pygame.draw.rect(display_surface,(0, 255, 0),[260,350,110,40])
+
         if 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40: 
             pygame.draw.rect(display_surface,(255, 0, 0),[400,350,170,40]) 
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[400,350,170,40]) 
         display_surface.blit(textGit, (50,350))
+        display_surface.blit(textMenu, (270, 350))
         display_surface.blit(textTrello, (400,350))
         for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)
-            if event.type == pygame.MOUSEBUTTONDOWN: 
-                if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40:  
+            # if event.type == pygame.KEYDOWN:
+            #     menu.mainloop(surface)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40:
                     githubLink()
+                elif 270 <= mouse[0] <= 270+110 and 350 <= mouse[1] <= 350+40:
+                    menu.mainloop(surface)
                 elif 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40:
                     trelloLink()
             pygame.display.update()

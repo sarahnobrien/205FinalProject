@@ -55,12 +55,13 @@ def start_the_game():
             pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
+
         if 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
             pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55])
 
-        if 900 <= mousePos[0] <= 1090 and 450 <= mousePos[1] <= 655: #this one is for "go back to menu"
+        if 900 <= mousePos[0] <= 1090 and 450 <= mousePos[1] <= 500: #this one is for "go back to menu"
             pygame.draw.rect(screen, (255, 0, 0), [900, 450, 150, 55])
         else:
             pygame.draw.rect(screen, (0, 255, 0), [900, 450, 150, 55])

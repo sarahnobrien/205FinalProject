@@ -31,7 +31,6 @@ def start_the_game():
     font = pygame.font.Font('freesansbold.ttf', 50)
     cpuTurn = False
 
-    # Creates game board TODO: Move to Game.py
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))
@@ -60,12 +59,13 @@ def start_the_game():
             pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
+
         if 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
             pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55])
 
-        if 900 <= mousePos[0] <= 1090 and 450 <= mousePos[1] <= 655: #this one is for "go back to menu"
+        if 900 <= mousePos[0] <= 1090 and 450 <= mousePos[1] <= 500: #this one is for "go back to menu"
             pygame.draw.rect(screen, (255, 0, 0), [900, 450, 150, 55])
         else:
             pygame.draw.rect(screen, (0, 255, 0), [900, 450, 150, 55])
@@ -92,10 +92,7 @@ def start_the_game():
         screen.fill((255, 255, 0))
         draw()
 
-        for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN:
-                screen = pygame.display.set_mode((600, 400))
-                menu.mainloop(surface)
+        for event in pygame.event.get() :
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
@@ -155,7 +152,10 @@ def about_us():
     textRect4 = text4.get_rect()
     textRect4.center = (300, 300)
     textGit = font.render('Github Link', True, (0,0,0))
+    textMenu = font.render('Menu', True, (0, 0, 0))
     textTrello = font.render('Trello Link', True, (0,0,0))
+
+
 
     # Button behavior
     while True:
@@ -170,18 +170,25 @@ def about_us():
             pygame.draw.rect(display_surface,(255, 0, 0),[50,350,190,40]) 
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[50,350,190,40])
+
+        if 270 <= mouse[0] <= 270+110 and 350 <= mouse[1] <= 350+40:
+            pygame.draw.rect(display_surface,(255, 0, 0),[260,350,110,40])
+        else:
+            pygame.draw.rect(display_surface,(0, 255, 0),[260,350,110,40])
+
         if 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40: 
             pygame.draw.rect(display_surface,(255, 0, 0),[400,350,170,40]) 
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[400,350,170,40]) 
         display_surface.blit(textGit, (50,350))
+        display_surface.blit(textMenu, (270, 350))
         display_surface.blit(textTrello, (400,350))
-        for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)
-            if event.type == pygame.MOUSEBUTTONDOWN: 
-                if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40:  
+        for event in pygame.event.get() :
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40:
                     githubLink()
+                elif 270 <= mouse[0] <= 270+110 and 350 <= mouse[1] <= 350+40:
+                    menu.mainloop(surface)
                 elif 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40:
                     trelloLink()
             pygame.display.update()
@@ -211,8 +218,10 @@ def gomoku_rules():
     text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
     textRect5 = text5.get_rect()
     textRect5.center = (300, 300)
+    textMenu = fontBig.render('Menu', True, (0, 0, 0))
 
     while True :
+        mouse = pygame.mouse.get_pos()
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)
@@ -220,9 +229,17 @@ def gomoku_rules():
         rule_display.blit(text3, textRect3)
         rule_display.blit(text4, textRect4)
         rule_display.blit(text5, textRect5)
+
+        if 270 <= mouse[0] <= 270 + 80 and 350 <= mouse[1] <= 350 + 40:
+            pygame.draw.rect(rule_display, (255, 0, 0), [270, 350, 80, 40])
+        else:
+            pygame.draw.rect(rule_display, (0, 255, 0), [270, 350, 80, 40])
+        rule_display.blit(textMenu, (280, 360))
+
         for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)  
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 250 <= mouse[0] <= 250 + 80 and 350 <= mouse[1] <= 350 + 40:
+                    menu.mainloop(surface)
             pygame.display.update()
     
 

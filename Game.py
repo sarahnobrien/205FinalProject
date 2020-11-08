@@ -1,10 +1,12 @@
 from time import sleep
-
 from Intersection import Intersection
 import random
 
+
 class Game:
     global rows, cols, boxWidth, stoneRadius
+    firstPlayer = ""
+    secondPlayer = ""
     rows = 15
     cols = 15
     boxWidth = 50
@@ -42,6 +44,33 @@ class Game:
     def setTurn(self, player):
         self.turn = player
 
+    # Decide which player should go first (Human player or CPU), (50/50) chance
+    def chooseFirstPlayerEasyDifficulty(self):
+        randomInt = random.randrange(0, 1)
+        if randomInt == 0:
+            self.firstPlayer = "Player"
+            self.secondPlayer = "CPU"
+        else:
+            self.firstPlayer = "CPU"
+            self.secondPlayer = "Player"
+
+    # Decide which player should go first (Human player or CPU), CPU goes first more of the time roughly 75% of the time
+    def chooseFirstPlayerHardDifficulty(self):
+        randomInt = random.randrange(0, 3)
+        if randomInt == 0:
+            self.firstPlayer = "Player"
+            self.secondPlayer = "CPU"
+        else:
+            self.firstPlayer = "CPU"
+            self.secondPlayer = "Player"
+
+    def getFirstPlayer(self):
+        return self.firstPlayer
+
+    def getSecondPlayer(self):
+        return self.secondPlayer
+
+
     def placePieceCPU(self):
 
         piecePlaced = False
@@ -53,7 +82,6 @@ class Game:
                 self.getGameBoard()[randColumn][randRow].click("CPU")
                 piecePlaced = True
                 self.setTurn("player")
-
 
     def countfive(self):
 

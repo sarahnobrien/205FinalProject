@@ -10,6 +10,7 @@ class Game:
     rows = 15
     cols = 15
     boxWidth = 50
+    currTurn = ""
     stoneRadius = 20
     objectGameBoard = []
 
@@ -19,7 +20,7 @@ class Game:
         self.boxWidth = 50
         self.objectGameBoard
         self.stoneRadius = 20
-        self.turn = "player"
+        self.currTurn = self.chooseFirstPlayerEasyDifficulty()
 
     def StartGameBoard(self):
         for i in range(rows):
@@ -38,11 +39,11 @@ class Game:
     def getGameBoard(self):
         return self.objectGameBoard
 
-    def getTurn(self):
-        return self.turn
+    def getCurrTurn(self):
+        return self.currTurn
 
-    def setTurn(self, player):
-        self.turn = player
+    def setCurrTurn(self, player):
+        self.currTurn = player
 
     # Decide which player should go first (Human player or CPU), (50/50) chance
     def chooseFirstPlayerEasyDifficulty(self):
@@ -53,6 +54,7 @@ class Game:
         else:
             self.firstPlayer = "CPU"
             self.secondPlayer = "Player"
+        return self.firstPlayer
 
     # Decide which player should go first (Human player or CPU), CPU goes first more of the time roughly 75% of the time
     def chooseFirstPlayerHardDifficulty(self):
@@ -70,6 +72,21 @@ class Game:
     def getSecondPlayer(self):
         return self.secondPlayer
 
+    # Try to implement generic placePiece function
+    def placePieceGeneric(self, locI, locJ):
+        currTurn = self.getCurrTurn()
+        if not self.getGameBoard()[locI][locJ].hasStone:
+
+            # Check who's turn it is
+            if currTurn == "Player":
+                self.getGameBoard()[locI][locJ].click(currTurn)
+                self.setCurrTurn("CPU")
+
+            elif currTurn == "CPU":
+                self.getGameBoard()[locI][locJ].click(currTurn)
+                self.setCurrTurn("Player")
+            else:
+                return -1 # A problem occurred
 
     def placePieceCPU(self):
 
@@ -81,7 +98,7 @@ class Game:
             if not self.getGameBoard()[randColumn][randRow].hasStone:
                 self.getGameBoard()[randColumn][randRow].click("CPU")
                 piecePlaced = True
-                self.setTurn("player")
+                self.setTurn("Player")
 
     def countfive(self):
 
@@ -164,4 +181,3 @@ class Game:
             elif i == 14 and j == 14:
                 check[0] = False
 
-    # TODO: add countFive.py after a piece is placed

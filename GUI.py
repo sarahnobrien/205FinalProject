@@ -11,6 +11,7 @@ from Game import Game
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 difficultyGet = [1]
+globalMouse = pygame.mouse.get_pos()
 def set_difficulty(value, difficulty):
     difficultyGet[0] = difficulty
 
@@ -56,18 +57,18 @@ def start_the_game():
                 game.getGameBoard()[i][j].draw(screen)
 
         # Restart and exit button
-        if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
+        if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
             pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
 
 
-        if 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
+        if 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
             pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55])
 
-        if 900 <= mousePos[0] <= 1090 and 450 <= mousePos[1] <= 500: #this one is for "go back to menu"
+        if 900 <= globalMousePos[0] <= 1090 and 450 <= globalMousePos[1] <= 500: #this one is for "go back to menu"
             pygame.draw.rect(screen, (255, 0, 0), [900, 450, 150, 55])
         else:
             pygame.draw.rect(screen, (0, 255, 0), [900, 450, 150, 55])
@@ -91,7 +92,7 @@ def start_the_game():
 
     
     while True:
-        mousePos = pygame.mouse.get_pos()
+        globalMousePos = pygame.mouse.get_pos()
         screen.fill((255, 255, 0))
         draw()
 
@@ -106,9 +107,9 @@ def start_the_game():
                         #finding the intersection that was clicked
                         #not sure what the 20 is for
 
-                        if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
-                                and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
-                            if game.getTurn() == "player":
+                        if boxWidth + boxWidth*i - clickMarginOfError <= globalMousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
+                                and boxWidth + boxWidth*j - clickMarginOfError <= globalMousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
+                            if game.getCurrTurn() == "player":
                                 game.getGameBoard()[i][j].click("player")
 
                                 
@@ -118,7 +119,7 @@ def start_the_game():
                                 print("CPU:", game.comcountfive())
                                 if game.comcountfive():
                                     print("CPU good")
-                                game.setTurn("CPU")
+                                game.setCurrTurn("CPU")
                                 game.placePieceCPU()
                                 
 
@@ -129,13 +130,13 @@ def start_the_game():
 
             # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN: 
-                if 900 <= mousePos[0] <= 1090 and 300 <= mousePos[1] <= 355:
+                if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
                     restart()
-                elif 900 <= mousePos[0] <= 1090 and 400 <= mousePos[1] <= 555:
+                elif 900 <= globalMousePos[0] <= 1090 and 400 <= globalMousePos[1] <= 555:
                     surface = pygame.display.set_mode((600, 400))
                     menu.mainloop(surface)
 
-                elif 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
+                elif 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
                     pygame.quit()
                     exitGame()
 
@@ -171,10 +172,6 @@ def about_us():
     textRect4 = text4.get_rect()
     textRect4.center = (300, 300)
     textGit = font.render('Github Link', True, (0,0,0))
-
-    # Button behavior
-    while True :
-
     textMenu = font.render('Menu', True, (0, 0, 0))
     textTrello = font.render('Trello Link', True, (0,0,0))
 
@@ -182,24 +179,24 @@ def about_us():
 
     # Button behavior
     while True:
-        mouse = pygame.mouse.get_pos()
+        globalMouse = pygame.globalMouse.get_pos()
         display_surface.fill((220,220,220))
         display_surface.blit(text0, textRect0)
         display_surface.blit(text1, textRect1)
         display_surface.blit(text2, textRect2)
         display_surface.blit(text3, textRect3)
         display_surface.blit(text4, textRect4)
-        if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40: 
+        if 50 <= globalMouse[0] <= 50+190 and 350 <= globalMouse[1] <= 350+40:
             pygame.draw.rect(display_surface,(255, 0, 0),[50,350,190,40]) 
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[50,350,190,40])
 
-        if 270 <= mouse[0] <= 270+110 and 350 <= mouse[1] <= 350+40:
+        if 270 <= globalMouse[0] <= 270+110 and 350 <= globalMouse[1] <= 350+40:
             pygame.draw.rect(display_surface,(255, 0, 0),[260,350,110,40])
         else:
             pygame.draw.rect(display_surface,(0, 255, 0),[260,350,110,40])
 
-        if 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40: 
+        if 400 <= globalMouse[0] <= 400+170 and 350 <= globalMouse[1] <= 350+40:
             pygame.draw.rect(display_surface,(255, 0, 0),[400,350,170,40]) 
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[400,350,170,40]) 
@@ -209,11 +206,11 @@ def about_us():
         display_surface.blit(textTrello, (400,350))
         for event in pygame.event.get() :
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 50 <= mouse[0] <= 50+190 and 350 <= mouse[1] <= 350+40:
+                if 50 <= globalMouse[0] <= 50+190 and 350 <= globalMouse[1] <= 350+40:
                     githubLink()
-                elif 270 <= mouse[0] <= 270+110 and 350 <= mouse[1] <= 350+40:
+                elif 270 <= globalMouse[0] <= 270+110 and 350 <= globalMouse[1] <= 350+40:
                     menu.mainloop(surface)
-                elif 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40:
+                elif 400 <= globalMouse[0] <= 400+170 and 350 <= globalMouse[1] <= 350+40:
                     trelloLink()
             pygame.display.update()
 
@@ -243,10 +240,10 @@ def gomoku_rules():
     text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
     textRect5 = text5.get_rect()
     textRect5.center = (300, 300)
+    textMenu = fontBig.render('Menu', True, (0, 0, 0))
 
     while True :
-        textMenu = fontBig.render('Menu', True, (0, 0, 0))
-        mouse = pygame.mouse.get_pos()
+        mouse = pygame.globalMouse.get_pos()
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)
@@ -264,21 +261,22 @@ def gomoku_rules():
 
 
 
-menu = pygame_menu.Menu(300, 600, 'GOMOKU',theme=pygame_menu.themes.THEME_GREEN)
+#menu = pygame_menu.Menu(300, 600, 'GOMOKU',theme=pygame_menu.themes.THEME_GREEN)
 
 
-        if 270 <= mouse[0] <= 270 + 80 and 350 <= mouse[1] <= 350 + 40:
-            pygame.draw.rect(rule_display, (255, 0, 0), [270, 350, 80, 40])
-        else:
-            pygame.draw.rect(rule_display, (0, 255, 0), [270, 350, 80, 40])
+
+    if 270 <= globalMouse[0] <= 270 + 80 and 350 <= globalMouse[1] <= 350 + 40:
+        pygame.draw.rect(rule_display, (255, 0, 0), [270, 350, 80, 40])
+    else:
+        pygame.draw.rect(rule_display, (0, 255, 0), [270, 350, 80, 40])
         rule_display.blit(textMenu, (280, 360))
 
-        for event in pygame.event.get() : 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if 250 <= mouse[0] <= 250 + 80 and 350 <= mouse[1] <= 350 + 40:
-                    menu.mainloop(surface)
-            pygame.display.update()
-    
+    for event in pygame.event.get() :
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if 250 <= globalMouse[0] <= 250 + 80 and 350 <= globalMouse[1] <= 350 + 40:
+                menu.mainloop(surface)
+        pygame.display.update()
+
 
 menu = pygame_menu.Menu(400, 600, 'GOMOKU',
                        theme=pygame_menu.themes.THEME_GREEN)

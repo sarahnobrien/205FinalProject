@@ -7,14 +7,12 @@ import webbrowser
 from Intersection import Intersection
 from Game import Game
 
+
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 difficultyGet = [1]
-
-
 def set_difficulty(value, difficulty):
     difficultyGet[0] = difficulty
-
 
 def start_the_game():
     pygame.init()
@@ -35,6 +33,7 @@ def start_the_game():
     textExit = font.render('Exit', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))
 
+
     def draw():
         global rows, cols, boxWidth
         rows = 15
@@ -42,6 +41,7 @@ def start_the_game():
         boxWidth = 50
 
         # drawing the lines for the intersections
+
         for i in range(cols):
             for j in range(rows):
                 pygame.draw.line(screen,(0,0,0),(0,boxWidth + boxWidth*i),(800,boxWidth + boxWidth*i),2)
@@ -49,6 +49,7 @@ def start_the_game():
         pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
 
         # Drawing the stones on the board
+
 
         for i in range(cols):
             for j in range(rows):
@@ -59,6 +60,7 @@ def start_the_game():
             pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
         else: 
             pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
+
 
         if 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
             pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
@@ -73,37 +75,53 @@ def start_the_game():
         screen.blit(textRestart, (900,300))
         screen.blit(textExit, (900,600))
         screen.blit(textMenu, (900, 450))
+
         pygame.display.flip()
 
     def restart():
         start_the_game()
 
     def menuFromGame():
-
         surface = pygame.display.set_mode((600, 400))
         menu.mainloop(surface)
 
     def exitGame():
         sys.exit()
     # For first sprint, we assume user first (black), and computer part will be sprint 2
+
     
     while True:
         mousePos = pygame.mouse.get_pos()
         screen.fill((255, 255, 0))
         draw()
 
-        for event in pygame.event.get() :
+
+        for event in pygame.event.get() : 
+            if event.type == pygame.KEYDOWN:
+                screen = pygame.display.set_mode((600, 400))
+                menu.mainloop(surface)
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
+                        #finding the intersection that was clicked
+                        #not sure what the 20 is for
 
-                        # finding the intersection that was clicked
                         if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             if game.getTurn() == "player":
                                 game.getGameBoard()[i][j].click("player")
+
+                                
+                                print("User", game.countfive())
+                                if game.countfive():
+                                    print("User good")
+                                print("CPU:", game.comcountfive())
+                                if game.comcountfive():
+                                    print("CPU good")
                                 game.setTurn("CPU")
                                 game.placePieceCPU()
+                                
+
 
 
 
@@ -116,9 +134,11 @@ def start_the_game():
                 elif 900 <= mousePos[0] <= 1090 and 400 <= mousePos[1] <= 555:
                     surface = pygame.display.set_mode((600, 400))
                     menu.mainloop(surface)
+
                 elif 900 <= mousePos[0] <= 1090 and 600 <= mousePos[1] <= 655:
                     pygame.quit()
                     exitGame()
+
 
             pygame.display.update()
 
@@ -126,7 +146,6 @@ def start_the_game():
 def about_us():
     def githubLink():
         webbrowser.open("https://github.com/sarahnobrien/205FinalProject")
-
     def trelloLink():
         webbrowser.open("https://trello.com/b/pvtiJr5s/cs205-team-2")
     green = (0, 255, 0) 
@@ -152,6 +171,10 @@ def about_us():
     textRect4 = text4.get_rect()
     textRect4.center = (300, 300)
     textGit = font.render('Github Link', True, (0,0,0))
+
+    # Button behavior
+    while True :
+
     textMenu = font.render('Menu', True, (0, 0, 0))
     textTrello = font.render('Trello Link', True, (0,0,0))
 
@@ -181,6 +204,7 @@ def about_us():
         else: 
             pygame.draw.rect(display_surface,(0, 255, 0),[400,350,170,40]) 
         display_surface.blit(textGit, (50,350))
+
         display_surface.blit(textMenu, (270, 350))
         display_surface.blit(textTrello, (400,350))
         for event in pygame.event.get() :
@@ -192,6 +216,7 @@ def about_us():
                 elif 400 <= mouse[0] <= 400+170 and 350 <= mouse[1] <= 350+40:
                     trelloLink()
             pygame.display.update()
+
 
 
 def gomoku_rules():
@@ -218,9 +243,9 @@ def gomoku_rules():
     text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
     textRect5 = text5.get_rect()
     textRect5.center = (300, 300)
-    textMenu = fontBig.render('Menu', True, (0, 0, 0))
 
     while True :
+        textMenu = fontBig.render('Menu', True, (0, 0, 0))
         mouse = pygame.mouse.get_pos()
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
@@ -229,6 +254,18 @@ def gomoku_rules():
         rule_display.blit(text3, textRect3)
         rule_display.blit(text4, textRect4)
         rule_display.blit(text5, textRect5)
+
+        for event in pygame.event.get() : 
+            if event.type == pygame.KEYDOWN: 
+                menu.mainloop(surface)  
+            pygame.display.update()
+    
+    
+
+
+
+menu = pygame_menu.Menu(300, 600, 'GOMOKU',theme=pygame_menu.themes.THEME_GREEN)
+
 
         if 270 <= mouse[0] <= 270 + 80 and 350 <= mouse[1] <= 350 + 40:
             pygame.draw.rect(rule_display, (255, 0, 0), [270, 350, 80, 40])

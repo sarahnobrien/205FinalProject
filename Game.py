@@ -1,26 +1,33 @@
 from time import sleep
+
 from Intersection import Intersection
 import random
 
-
 class Game:
     global rows, cols, boxWidth, stoneRadius
-    firstPlayer = ""
-    secondPlayer = ""
     rows = 15
     cols = 15
     boxWidth = 50
-    currTurn = ""
     stoneRadius = 20
     objectGameBoard = []
+    check = [False]
+    countfiv = [0, 0, 0, 0]
+    checkcom = [False]
+    countfivcom = [0, 0, 0, 0]
+
 
     def __init__(self):
         self.rows = 15
         self.cols = 15
         self.boxWidth = 50
-        self.objectGameBoard
+        self.objectGameBoard = []
         self.stoneRadius = 20
-        self.currTurn = self.chooseFirstPlayerEasyDifficulty()
+        self.currTurn = "player"
+        self.check = [False]
+        self.countfiv = [0, 0, 0, 0]
+        self.checkcom = [False]
+        self.countfivcom = [0, 0, 0, 0]
+
 
     def StartGameBoard(self):
         for i in range(rows):
@@ -38,6 +45,7 @@ class Game:
 
     def getGameBoard(self):
         return self.objectGameBoard
+
 
     def getCurrTurn(self):
         return self.currTurn
@@ -92,6 +100,7 @@ class Game:
             else:
                 return -1 # A problem occurred
 
+
     def placePieceCPU(self):
 
         piecePlaced = False
@@ -102,86 +111,164 @@ class Game:
             if not self.getGameBoard()[randColumn][randRow].hasStone:
                 self.getGameBoard()[randColumn][randRow].click("CPU")
                 piecePlaced = True
-                self.setTurn("Player")
+
+                self.setTurn("player")
+
 
     def countfive(self):
-
-        # i = 0
-        # j = 0
-        # check = [False]
-        # countfiv = [0, 0, 0, 0]
-        global i, j, countfiv, arrayi, check
-        icheck = i
-        jcheck = j
-        c = 0
-        if arrayi[i][j] == 1:
-            while icheck <= 14 and jcheck <= 14:
-                if arrayi[icheck][jcheck] == 1:
-                    c += 1
-                    countfiv[0] = c
-                else:
-                    c = 0
-                    countfiv[0] = c
-                icheck += 1
-            icheck = i
-            jcheck = j
+        icheckC = 0
+        jcheckC = 0
+        while icheckC <= 14 and jcheckC <= 14:
+            icheck = icheckC
+            jcheck = jcheckC
             c = 0
-            while icheck <= 14 and jcheck <= 14:
-                if arrayi[icheck][jcheck] == 1:
-                    c += 1
-                    countfiv[1] = c
-                else:
-                    c = 0
-                    countfiv[1] = c
+            if self.getGameBoard()[icheckC][jcheckC].hasStone and self.getGameBoard()[icheckC][jcheckC].getOwner() == "player":
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                        c += 1
+                        self.countfiv[0] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfiv[0] = c
+                    icheck += 1
+                icheck = icheckC
+                jcheck = jcheckC
+                c = 0
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                        c += 1
+                        self.countfiv[1] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfiv[1] = c
 
-                jcheck += 1
-            icheck = i
-            jcheck = j
-            c = 0
-            while icheck <= 14 and jcheck <= 14:
-                if arrayi[icheck][jcheck] == 1:
-                    c += 1
-                    countfiv[2] = c
-                else:
-                    c = 0
-                    countfiv[2] = c
-                icheck += 1
-                jcheck -= 1
-            icheck = i
-            jcheck = j
-            c = 0
-            while icheck <= 14 and jcheck <= 14:
-                if arrayi[icheck][jcheck] == 1:
-                    c += 1
-                    countfiv[3] = c
-                else:
-                    c = 0
-                    countfiv[3] = c
+                    jcheck += 1
+                icheck = icheckC
+                jcheck = jcheckC
+                c = 0
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                        c += 1
+                        self.countfiv[2] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfiv[2] = c
+                    icheck += 1
+                    jcheck -= 1
+                icheck = icheckC
+                jcheck = jcheckC
+                c = 0
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                        c += 1
+                        self.countfiv[3] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfiv[3] = c
 
-                icheck += 1
-                jcheck += 1
+                    icheck += 1
+                    jcheck += 1
+                if 5 in self.countfiv:
+                    self.check[0] = True
+                    return self.check[0]
+                else:
+                    self.countfiv = [0, 0, 0, 0]
+                    if jcheckC < 14:
+                        icheckC += 1
 
-            if 5 in countfiv:
-                check[0] = True
+                    elif jcheckC == 14 and icheckC < 14:
+                        icheckC += 1
+                        jcheckC = 0
+
+                    elif icheckC == 14 and jcheckC == 14:
+                        break
             else:
-                countfiv = [0, 0, 0, 0]
-                if j < 14:
-                    j += 1
-                    countfive()
-                elif j == 14 and i < 14:
-                    i += 1
-                    j = 0
-                    countfive()
-                elif i == 14 and j == 14:
-                    check[0] = False
-        else:
-            if j < 14:
-                j += 1
-                countfive()
-            elif j == 14 and i < 14:
-                i += 1
-                j = 0
-                countfive()
-            elif i == 14 and j == 14:
-                check[0] = False
+                if jcheckC < 14:
+                    jcheckC += 1
 
+                elif jcheckC == 14 and icheckC < 14:
+                    icheckC += 1
+                    jcheckC = 0
+                elif icheckC == 14 and jcheckC == 14:
+                    break
+
+        return self.check[0]
+    def comcountfive(self):
+        icheckC = 0
+        jcheckC = 0
+        while icheckC <= 14 and jcheckC <= 14:
+            icheck = icheckC
+            jcheck = jcheckC
+            c = 0
+            if self.getGameBoard()[icheckC][jcheckC].hasStone and self.getGameBoard()[icheckC][jcheckC].getOwner() == "CPU":
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "CPU":
+                        c += 1
+                        self.countfivcom[0] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfivcom[0] = c
+                    icheck += 1
+                icheck = icheckC
+                jcheck = jcheckC
+                c = 0
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "CPU":
+                        c += 1
+                        self.countfivcom[1] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfivcom[1] = c
+
+                    jcheck += 1
+                icheck = icheckC
+                jcheck = jcheckC
+                c = 0
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "CPU":
+                        c += 1
+                        self.countfivcom[2] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfivcom[2] = c
+                    icheck += 1
+                    jcheck -= 1
+                icheck = icheckC
+                jcheck = jcheckC
+                c = 0
+                while icheck <= 14 and jcheck <= 14:
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "CPU":
+                        c += 1
+                        self.countfivcom[3] = c
+                    elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
+                        c = 0
+                        self.countfivcom[3] = c
+
+                    icheck += 1
+                    jcheck += 1
+
+                if 5 in self.countfivcom:
+                    self.checkcom[0] = True
+                    return self.checkcom[0]
+                else:
+                    self.countfivcom = [0, 0, 0, 0]
+                    if jcheckC < 14:
+                        icheckC += 1
+
+                    elif jcheckC == 14 and icheckC < 14:
+                        icheckC += 1
+                        jcheckC = 0
+
+                    elif icheckC == 14 and jcheckC == 14:
+                        break
+            else:
+                if jcheckC < 14:
+                    jcheckC += 1
+
+                elif jcheckC == 14 and icheckC < 14:
+                    icheckC += 1
+                    jcheckC = 0
+                elif icheckC == 14 and jcheckC == 14:
+                    break
+
+        return self.checkcom[0]

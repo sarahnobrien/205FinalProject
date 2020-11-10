@@ -90,12 +90,16 @@ def start_the_game():
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             if game.getTurn() == "player":
                                 game.getGameBoard()[i][j].click("player")
-                                game.countfive()
-                                print(game.checkGet())
-                                if game.checkGet() == True:
-                                    print("good")
+                                
+                                print("User", game.countfive())
+                                if game.countfive():
+                                    print("User good")
+                                print("CPU:", game.comcountfive())
+                                if game.comcountfive():
+                                    print("CPU good")
                                 game.setTurn("CPU")
                                 game.placePieceCPU()
+                                
 
 
 
@@ -212,13 +216,9 @@ def gomoku_rules():
     
     
 
-<<<<<<< HEAD:GUI.py
-menu = pygame_menu.Menu(400, 600, 'GOMOKU',
-=======
-menu = pygame_menu.Menu(300, 600, 'GOMOKU',
->>>>>>> 146c304bd33885edc338fce1c383f2700b2c8ac4:menu.py
 
-                       theme=pygame_menu.themes.THEME_GREEN)
+
+menu = pygame_menu.Menu(300, 600, 'GOMOKU',theme=pygame_menu.themes.THEME_GREEN)
 
 
 menu.add_selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)

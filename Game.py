@@ -112,7 +112,7 @@ class Game:
                 self.getGameBoard()[randColumn][randRow].click("CPU")
                 piecePlaced = True
 
-                self.setTurn("player")
+                self.setCurrTurn("player")
 
 
     def countfive(self):

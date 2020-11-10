@@ -72,7 +72,8 @@ class Game:
     def getSecondPlayer(self):
         return self.secondPlayer
 
-    # Try to implement generic placePiece function
+    # Try to implement generic placePiece function, which has logic for checking whose turn it is,
+    # and placing their respective piece
     def placePieceGeneric(self, locI, locJ):
         currTurn = self.getCurrTurn()
         if not self.getGameBoard()[locI][locJ].hasStone:
@@ -85,6 +86,9 @@ class Game:
             elif currTurn == "CPU":
                 self.getGameBoard()[locI][locJ].click(currTurn)
                 self.setCurrTurn("Player")
+            # elif currTurn == "CPU":
+            #     self.placePieceCPU()
+            #     self.setCurrTurn("Player")
             else:
                 return -1 # A problem occurred
 

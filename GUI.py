@@ -92,7 +92,7 @@ def start_the_game():
         screen.fill((255, 255, 0))
         draw()
 
-        for event in pygame.event.get() :
+        for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
@@ -100,8 +100,8 @@ def start_the_game():
                         # finding the intersection that was clicked
                         if boxWidth + boxWidth*i - clickMarginOfError <= mousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= mousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
-                            if game.getTurn() == "player":
-                                game.getGameBoard()[i][j].click("player")
+                            if game.getTurn() == "Player":
+                                game.getGameBoard()[i][j].click("Player")
                                 game.setTurn("CPU")
                                 game.placePieceCPU()
 

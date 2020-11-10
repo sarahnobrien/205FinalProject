@@ -54,7 +54,8 @@ class Game:
         else:
             self.firstPlayer = "CPU"
             self.secondPlayer = "Player"
-        return self.firstPlayer
+        self.currTurn = self.firstPlayer
+        return self.currTurn
 
     # Decide which player should go first (Human player or CPU), CPU goes first more of the time roughly 75% of the time
     def chooseFirstPlayerHardDifficulty(self):
@@ -65,6 +66,8 @@ class Game:
         else:
             self.firstPlayer = "CPU"
             self.secondPlayer = "Player"
+        self.currTurn = self.firstPlayer
+        return self.currTurn
 
     def getFirstPlayer(self):
         return self.firstPlayer
@@ -86,9 +89,6 @@ class Game:
             elif currTurn == "CPU":
                 self.getGameBoard()[locI][locJ].click(currTurn)
                 self.setCurrTurn("Player")
-            # elif currTurn == "CPU":
-            #     self.placePieceCPU()
-            #     self.setCurrTurn("Player")
             else:
                 return -1 # A problem occurred
 

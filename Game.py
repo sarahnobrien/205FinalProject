@@ -91,21 +91,21 @@ class Game:
                 if not self.getGameBoard()[locI][locJ].hasStone:
                     self.getGameBoard()[locI][locJ].click(currTurn)
                     self.setCurrTurn("CPU")
+                    self.placePieceCPU()
 
-            elif currTurn == "CPU":
-                piecePlaced = False
-                while not piecePlaced:
-                    locI = random.randint(0, 14)
-                    locJ = random.randint(0, 14)
-
-                    if not self.getGameBoard()[locI][locJ].hasStone:
-                        self.getGameBoard()[locI][locJ].click(currTurn)
-                        piecePlaced = True
-
-                self.setCurrTurn("Player")
+            # elif currTurn == "CPU":
+            #     piecePlaced = False
+            #     while not piecePlaced:
+            #         locI = random.randint(0, 14)
+            #         locJ = random.randint(0, 14)
+            #
+            #         if not self.getGameBoard()[locI][locJ].hasStone:
+            #             self.getGameBoard()[locI][locJ].click(currTurn)
+            #             piecePlaced = True
+            #
+            #     self.setCurrTurn("Player")
             else:
                 return -1 # A problem occurred
-
 
     def placePieceCPU(self):
 

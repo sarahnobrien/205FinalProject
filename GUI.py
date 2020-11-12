@@ -104,24 +104,23 @@ def start_the_game():
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 for i in range(cols):
                     for j in range(rows):
-                        #finding the intersection that was clicked
-                        #not sure what the 20 is for
+                        # finding the intersection that was clicked
+                        # not sure what the 20 is for
 
                         if boxWidth + boxWidth*i - clickMarginOfError <= globalMousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= globalMousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             if game.getCurrTurn() == "Player":
-                                #game.getGameBoard()[i][j].click("Player")
+                                # game.getGameBoard()[i][j].click("Player")
                                 game.placePieceGeneric(i, j) # Place players piece
                                 print("User", game.countfive())
                                 if game.countfive():
                                     print("User good")
-                                #game.setCurrTurn("CPU")
+                                # game.setCurrTurn("CPU")
                             if game.getCurrTurn() == "CPU":
                                 game.placePieceGeneric(i, j) # Weird behavior, player has to click for cpu to take turn
                                 print("CPU:", game.comcountfive())
                                 if game.comcountfive():
                                     print("CPU good")
-
 
             # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN: 
@@ -142,6 +141,7 @@ def start_the_game():
 def about_us():
     def githubLink():
         webbrowser.open("https://github.com/sarahnobrien/205FinalProject")
+
     def trelloLink():
         webbrowser.open("https://trello.com/b/pvtiJr5s/cs205-team-2")
     green = (0, 255, 0) 
@@ -169,8 +169,6 @@ def about_us():
     textGit = font.render('Github Link', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))
     textTrello = font.render('Trello Link', True, (0,0,0))
-
-
 
     # Button behavior
     while True:

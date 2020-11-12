@@ -22,7 +22,7 @@ class Game:
         self.boxWidth = 50
         self.objectGameBoard = []
         self.stoneRadius = 20
-        self.currTurn = "player"
+        self.currTurn = "Player"
         self.check = [False]
         self.countfiv = [0, 0, 0, 0]
         self.checkcom = [False]
@@ -45,7 +45,6 @@ class Game:
 
     def getGameBoard(self):
         return self.objectGameBoard
-
 
     def getCurrTurn(self):
         return self.currTurn
@@ -89,11 +88,20 @@ class Game:
 
             # Check who's turn it is
             if currTurn == "Player":
-                self.getGameBoard()[locI][locJ].click(currTurn)
-                self.setCurrTurn("CPU")
+                if not self.getGameBoard()[locI][locJ].hasStone:
+                    self.getGameBoard()[locI][locJ].click(currTurn)
+                    self.setCurrTurn("CPU")
 
             elif currTurn == "CPU":
-                self.getGameBoard()[locI][locJ].click(currTurn)
+                piecePlaced = False
+                while not piecePlaced:
+                    locI = random.randint(0, 14)
+                    locJ = random.randint(0, 14)
+
+                    if not self.getGameBoard()[locI][locJ].hasStone:
+                        self.getGameBoard()[locI][locJ].click(currTurn)
+                        piecePlaced = True
+
                 self.setCurrTurn("Player")
             else:
                 return -1 # A problem occurred
@@ -110,7 +118,7 @@ class Game:
                 self.getGameBoard()[randColumn][randRow].click("CPU")
                 piecePlaced = True
 
-                self.setCurrTurn("player")
+                self.setCurrTurn("Player")
 
 
     def countfive(self):
@@ -120,9 +128,9 @@ class Game:
             icheck = icheckC
             jcheck = jcheckC
             c = 0
-            if self.getGameBoard()[icheckC][jcheckC].hasStone and self.getGameBoard()[icheckC][jcheckC].getOwner() == "player":
+            if self.getGameBoard()[icheckC][jcheckC].hasStone and self.getGameBoard()[icheckC][jcheckC].getOwner() == "Player":
                 while icheck <= 14 and jcheck <= 14:
-                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "Player":
                         c += 1
                         self.countfiv[0] = c
                     elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
@@ -133,7 +141,7 @@ class Game:
                 jcheck = jcheckC
                 c = 0
                 while icheck <= 14 and jcheck <= 14:
-                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "Player":
                         c += 1
                         self.countfiv[1] = c
                     elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
@@ -145,7 +153,7 @@ class Game:
                 jcheck = jcheckC
                 c = 0
                 while icheck <= 14 and jcheck <= 14:
-                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "Player":
                         c += 1
                         self.countfiv[2] = c
                     elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):
@@ -157,7 +165,7 @@ class Game:
                 jcheck = jcheckC
                 c = 0
                 while icheck <= 14 and jcheck <= 14:
-                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "player":
+                    if self.getGameBoard()[icheck][jcheck].hasStone and self.getGameBoard()[icheck][jcheck].getOwner() == "Player":
                         c += 1
                         self.countfiv[3] = c
                     elif c != 5 and not (self.getGameBoard()[icheck][jcheck].hasStone):

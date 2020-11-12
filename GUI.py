@@ -109,23 +109,18 @@ def start_the_game():
 
                         if boxWidth + boxWidth*i - clickMarginOfError <= globalMousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= globalMousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
-                            if game.getCurrTurn() == "player":
-                                game.getGameBoard()[i][j].click("player")
-
-                                
+                            if game.getCurrTurn() == "Player":
+                                #game.getGameBoard()[i][j].click("Player")
+                                game.placePieceGeneric(i, j) # Place players piece
                                 print("User", game.countfive())
                                 if game.countfive():
                                     print("User good")
+                                #game.setCurrTurn("CPU")
+                            if game.getCurrTurn() == "CPU":
+                                game.placePieceGeneric(i, j) # Weird behavior, player has to click for cpu to take turn
                                 print("CPU:", game.comcountfive())
                                 if game.comcountfive():
                                     print("CPU good")
-                                game.setCurrTurn("CPU")
-                                game.placePieceCPU()
-                                
-
-
-
-
 
 
             # Detect if restart or exit button are clicked

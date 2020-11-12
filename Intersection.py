@@ -37,8 +37,11 @@ class Intersection:
         return False
 
     def click(self, turn):
-        self.owner = turn
-        self.hasStone = True
+        if not self.hasStone:
+            self.owner = turn
+            self.hasStone = True
+        else:
+            return -1
 
 
     def hasStone(self):

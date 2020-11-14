@@ -2,6 +2,7 @@ from time import sleep
 
 from Intersection import Intersection
 import random
+import time
 
 class Game:
     global rows, cols, boxWidth, stoneRadius
@@ -22,11 +23,13 @@ class Game:
         self.boxWidth = 50
         self.objectGameBoard = []
         self.stoneRadius = 20
-        self.currTurn = "Player"
+        self.currTurn = self.chooseFirstPlayerEasyDifficulty()
+        self.firstPlayer = self.chooseFirstPlayerEasyDifficulty()
         self.check = [False]
         self.countfiv = [0, 0, 0, 0]
         self.checkcom = [False]
         self.countfivcom = [0, 0, 0, 0]
+        print("First Player: " + self.getFirstPlayer())
 
 
     def StartGameBoard(self):
@@ -54,7 +57,7 @@ class Game:
 
     # Decide which player should go first (Human player or CPU), (50/50) chance
     def chooseFirstPlayerEasyDifficulty(self):
-        randomInt = random.randrange(0, 1)
+        randomInt = random.randrange(0, 2)
         if randomInt == 0:
             self.firstPlayer = "Player"
             self.secondPlayer = "CPU"
@@ -92,18 +95,8 @@ class Game:
                     self.getGameBoard()[locI][locJ].click(currTurn)
                     self.setCurrTurn("CPU")
                     self.placePieceCPU()
-
-            # elif currTurn == "CPU":
-            #     piecePlaced = False
-            #     while not piecePlaced:
-            #         locI = random.randint(0, 14)
-            #         locJ = random.randint(0, 14)
-            #
-            #         if not self.getGameBoard()[locI][locJ].hasStone:
-            #             self.getGameBoard()[locI][locJ].click(currTurn)
-            #             piecePlaced = True
-            #
-            #     self.setCurrTurn("Player")
+            elif currTurn == "CPU":
+                 self.placePieceCPU()
             else:
                 return -1 # A problem occurred
 

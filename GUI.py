@@ -95,35 +95,34 @@ def start_the_game():
         globalMousePos = pygame.mouse.get_pos()
         screen.fill((255, 255, 0))
         draw()
-
-
-        for event in pygame.event.get() : 
+        if game.getFirstPlayer() == "CPU":
+            game.placePieceCPU()
+            game.firstPlayer = "NULL"
+        for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 screen = pygame.display.set_mode((600, 400))
                 menu.mainloop(surface)
-            if event.type == pygame.MOUSEBUTTONDOWN: 
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(cols):
                     for j in range(rows):
                         # finding the intersection that was clicked
-                        # not sure what the 20 is for
 
                         if boxWidth + boxWidth*i - clickMarginOfError <= globalMousePos[0] <= boxWidth + boxWidth*i + clickMarginOfError \
                                 and boxWidth + boxWidth*j - clickMarginOfError <= globalMousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             if game.getCurrTurn() == "Player":
-                                # game.getGameBoard()[i][j].click("Player")
                                 game.placePieceGeneric(i, j) # Place players piece
-                                print("User", game.countfive())
+                                print("User:", game.countfive())
                                 if game.countfive():
                                     print("User good")
                                 # game.setCurrTurn("CPU")
                             if game.getCurrTurn() == "CPU":
-                                game.placePieceGeneric(i, j) # Weird behavior, player has to click for cpu to take turn
+                                game.placePieceGeneric(i, j)
                                 print("CPU:", game.comcountfive())
                                 if game.comcountfive():
                                     print("CPU good")
 
             # Detect if restart or exit button are clicked
-            if event.type == pygame.MOUSEBUTTONDOWN: 
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
                     restart()
                 elif 900 <= globalMousePos[0] <= 1090 and 400 <= globalMousePos[1] <= 555:
@@ -133,7 +132,6 @@ def start_the_game():
                 elif 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
                     pygame.quit()
                     exitGame()
-
 
             pygame.display.update()
 

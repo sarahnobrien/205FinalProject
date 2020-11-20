@@ -57,25 +57,25 @@ def start_the_game():
                 game.getGameBoard()[i][j].draw(screen)
 
         # Restart and exit button
-        if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
-            pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
+        if 860 <= globalMousePos[0] <= 1090 and 255 <= globalMousePos[1] <= 305:
+            pygame.draw.rect(screen,(255, 0, 0),[860,255,180,55])
         else: 
-            pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
+            pygame.draw.rect(screen,(255, 255, 255),[860,255,180,55])
 
 
-        if 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
-            pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
+        if 900 <= globalMousePos[0] <= 1090 and 465 <= globalMousePos[1] <= 520:
+            pygame.draw.rect(screen,(255, 0, 0),[900,465,102,55])
         else: 
-            pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55])
+            pygame.draw.rect(screen,(255, 255, 255),[900,465,102,55])
 
-        if 900 <= globalMousePos[0] <= 1090 and 450 <= globalMousePos[1] <= 500: #this one is for "go back to menu"
-            pygame.draw.rect(screen, (255, 0, 0), [900, 450, 150, 55])
+        if 880 <= globalMousePos[0] <= 1090 and 360 <= globalMousePos[1] <= 405: #this one is for "go back to menu"
+            pygame.draw.rect(screen, (255, 0, 0), [880, 360, 140, 55])
         else:
-            pygame.draw.rect(screen, (0, 255, 0), [900, 450, 150, 55])
+            pygame.draw.rect(screen, (255, 255, 255), [880, 360, 140, 55])
 
-        screen.blit(textRestart, (900,300))
-        screen.blit(textExit, (900,600))
-        screen.blit(textMenu, (900, 450))
+        screen.blit(textRestart, (860,255))
+        screen.blit(textExit, (900,465))
+        screen.blit(textMenu, (880, 360))
 
         pygame.display.flip()
 
@@ -88,12 +88,13 @@ def start_the_game():
 
     def exitGame():
         sys.exit()
+
     # For first sprint, we assume user first (black), and computer part will be sprint 2
 
     
     while True:
         globalMousePos = pygame.mouse.get_pos()
-        screen.fill((255, 255, 0))
+        screen.fill((255, 255, 255))
         draw()
         if game.getFirstPlayer() == "CPU":
             game.placePieceCPU()
@@ -132,7 +133,9 @@ def start_the_game():
                 elif 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
                     pygame.quit()
                     exitGame()
-
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
 
 

@@ -175,7 +175,7 @@ def about_us():
 
     # Button behavior
     while True:
-        globalMouse = pygame.globalMouse.get_pos()
+        globalMouse = pygame.mouse.get_pos()
         display_surface.fill((220,220,220))
         display_surface.blit(text0, textRect0)
         display_surface.blit(text1, textRect1)
@@ -239,7 +239,7 @@ def gomoku_rules():
     textMenu = fontBig.render('Menu', True, (0, 0, 0))
 
     while True :
-        mouse = pygame.globalMouse.get_pos()
+        globalMouse = pygame.mouse.get_pos()
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)

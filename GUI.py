@@ -33,7 +33,15 @@ def start_the_game():
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))
-    # playerText = font.render("First Player: " + game.getFirstPlayer(),True,  (0,125,125))
+
+    # Display who is going first
+    playerFont = pygame.font.Font('freesansbold.ttf', 25)
+    CPUColor = (0, 128, 128)
+    PlayerColor = (128, 0, 128)
+    playerText = playerFont.render("First Player: Player", True, PlayerColor)
+
+    if game.getFirstPlayer() == "CPU":
+        playerText = playerFont.render("First Player: CPU\n", True, CPUColor)
 
 
     def draw():
@@ -51,7 +59,6 @@ def start_the_game():
         pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
 
         # Drawing the stones on the board
-
 
         for i in range(cols):
             for j in range(rows):
@@ -77,7 +84,7 @@ def start_the_game():
         screen.blit(textRestart, (860,255))
         screen.blit(textExit, (900,465))
         screen.blit(textMenu, (880, 360))
-        screen.blit(playerText, (400,400))
+        screen.blit(playerText, (840, 50))
 
         pygame.display.flip()
 
@@ -98,6 +105,7 @@ def start_the_game():
         globalMousePos = pygame.mouse.get_pos()
         screen.fill((255, 255, 255))
         draw()
+
         if game.getFirstPlayer() == "CPU":
             game.placePieceCPU()
             game.firstPlayer = "NULL"

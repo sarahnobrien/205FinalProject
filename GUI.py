@@ -33,6 +33,7 @@ def start_the_game():
     textRestart = font.render('Restart', True, (0,0,0))
     textExit = font.render('Exit', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))
+    # playerText = font.render("First Player: " + game.getFirstPlayer(),True,  (0,125,125))
 
 
     def draw():
@@ -76,6 +77,7 @@ def start_the_game():
         screen.blit(textRestart, (860,255))
         screen.blit(textExit, (900,465))
         screen.blit(textMenu, (880, 360))
+        screen.blit(playerText, (400,400))
 
         pygame.display.flip()
 

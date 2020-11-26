@@ -38,10 +38,11 @@ def start_the_game():
     playerFont = pygame.font.Font('freesansbold.ttf', 25)
     CPUColor = (0, 128, 128)
     PlayerColor = (128, 0, 128)
-    playerText = playerFont.render("First Player: Player", True, PlayerColor)
 
+    # See which player goes first and output it
+    playerText = playerFont.render("First Player: Player", True, PlayerColor)
     if game.getFirstPlayer() == "CPU":
-        playerText = playerFont.render("First Player: CPU\n", True, CPUColor)
+        playerText = playerFont.render("First Player: CPU", True, CPUColor)
 
 
     def draw():
@@ -85,6 +86,14 @@ def start_the_game():
         screen.blit(textExit, (900,465))
         screen.blit(textMenu, (880, 360))
         screen.blit(playerText, (840, 50))
+
+        # Check which player wins and output it
+        if game.comcountfive() or game.countfive():
+            if game.countfive:
+                winningText = playerFont.render("You Win!!!", True, PlayerColor)
+            if game.comcountfive():
+                winningText = playerFont.render("CPU Wins :(", True, CPUColor)
+            screen.blit(winningText, (840,80))
 
         pygame.display.flip()
 

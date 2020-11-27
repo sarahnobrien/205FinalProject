@@ -120,8 +120,8 @@ def start_the_game():
             game.firstPlayer = "NULL"
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                screen = pygame.display.set_mode((600, 400))
                 menu.mainloop(surface)
+                screen = pygame.display.set_mode((600, 400))
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(cols):
                     for j in range(rows):
@@ -143,13 +143,13 @@ def start_the_game():
 
             # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
+                if 860 <= globalMousePos[0] <= 1090 and 255 <= globalMousePos[1] <= 305:
                     restart()
-                elif 900 <= globalMousePos[0] <= 1090 and 400 <= globalMousePos[1] <= 555:
+                elif 880 <= globalMousePos[0] <= 1090 and 360 <= globalMousePos[1] <= 405:
                     surface = pygame.display.set_mode((600, 400))
                     menu.mainloop(surface)
 
-                elif 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
+                elif 900 <= globalMousePos[0] <= 1090 and 465 <= globalMousePos[1] <= 520:
                     pygame.quit()
                     exitGame()
             if event.type == pygame.QUIT:

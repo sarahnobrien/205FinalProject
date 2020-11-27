@@ -225,6 +225,10 @@ def about_us():
                     menu.mainloop(surface)
                 elif 400 <= globalMouse[0] <= 400+170 and 350 <= globalMouse[1] <= 350+40:
                     trelloLink()
+
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
 
 
@@ -234,7 +238,7 @@ def gomoku_rules():
     rule_display = pygame.display.set_mode((600, 400))
     pygame.display.set_caption('Rules')
     font = pygame.font.Font('freesansbold.ttf', 16)
-    fontBig = pygame.font.Font('freesansbold.ttf', 20)
+    fontBig = pygame.font.Font('freesansbold.ttf', 30)
     text0 = fontBig.render('RULES', True, (255, 0, 0))
     textRect0 = text0.get_rect()
     textRect0.center = (300, 50)
@@ -253,7 +257,7 @@ def gomoku_rules():
     text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
     textRect5 = text5.get_rect()
     textRect5.center = (300, 300)
-    textMenu = fontBig.render('Menu', True, (0, 0, 0))
+    textMenu = fontBig.render('Menu', True, (255, 255, 255))
 
     while True :
         globalMouse = pygame.mouse.get_pos()
@@ -265,9 +269,21 @@ def gomoku_rules():
         rule_display.blit(text4, textRect4)
         rule_display.blit(text5, textRect5)
 
+
+        if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
+            pygame.draw.rect(rule_display, (100, 100, 100), [245, 350, 90, 30])
+        else:
+            pygame.draw.rect(rule_display, (0, 0, 0), [245, 350, 90, 30])
+
+        rule_display.blit(textMenu, (250, 350))
+
         for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)  
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
+                    menu.mainloop(surface)
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
     
     

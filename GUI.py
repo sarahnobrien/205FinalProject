@@ -225,6 +225,10 @@ def about_us():
                     menu.mainloop(surface)
                 elif 400 <= globalMouse[0] <= 400+170 and 350 <= globalMouse[1] <= 350+40:
                     trelloLink()
+
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
 
 
@@ -277,6 +281,9 @@ def gomoku_rules():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
                     menu.mainloop(surface)
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
     
     

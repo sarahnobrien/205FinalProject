@@ -35,6 +35,16 @@ def start_the_game():
     textExit = font.render('Exit', True, (0,0,0))
     textMenu = font.render('Menu', True, (0, 0, 0))
 
+    # Display who is going first
+    playerFont = pygame.font.Font('freesansbold.ttf', 25)
+    CPUColor = (0, 128, 128)
+    PlayerColor = (128, 0, 128)
+
+    # See which player goes first and output it
+    playerText = playerFont.render("First Player: Player", True, PlayerColor)
+    if game.getFirstPlayer() == "CPU":
+        playerText = playerFont.render("First Player: CPU", True, CPUColor)
+
 
     def draw():
         global rows, cols, boxWidth
@@ -52,31 +62,39 @@ def start_the_game():
 
         # Drawing the stones on the board
 
-
         for i in range(cols):
             for j in range(rows):
                 game.getGameBoard()[i][j].draw(screen)
 
         # Restart and exit button
-        if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
-            pygame.draw.rect(screen,(255, 0, 0),[900,300,190,55]) 
+        if 860 <= globalMousePos[0] <= 1090 and 255 <= globalMousePos[1] <= 305:
+            pygame.draw.rect(screen,(255, 0, 0),[860,255,180,55])
         else: 
-            pygame.draw.rect(screen,(0, 255, 0),[900,300,190,55])
+            pygame.draw.rect(screen,(255, 255, 255),[860,255,180,55])
 
 
-        if 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
-            pygame.draw.rect(screen,(255, 0, 0),[900,600,110,55]) 
+        if 900 <= globalMousePos[0] <= 1090 and 465 <= globalMousePos[1] <= 520:
+            pygame.draw.rect(screen,(255, 0, 0),[900,465,102,55])
         else: 
-            pygame.draw.rect(screen,(0, 255, 0),[900,600,110,55])
+            pygame.draw.rect(screen,(255, 255, 255),[900,465,102,55])
 
-        if 900 <= globalMousePos[0] <= 1090 and 450 <= globalMousePos[1] <= 500: #this one is for "go back to menu"
-            pygame.draw.rect(screen, (255, 0, 0), [900, 450, 150, 55])
+        if 880 <= globalMousePos[0] <= 1090 and 360 <= globalMousePos[1] <= 405: #this one is for "go back to menu"
+            pygame.draw.rect(screen, (255, 0, 0), [880, 360, 140, 55])
         else:
-            pygame.draw.rect(screen, (0, 255, 0), [900, 450, 150, 55])
+            pygame.draw.rect(screen, (255, 255, 255), [880, 360, 140, 55])
 
-        screen.blit(textRestart, (900,300))
-        screen.blit(textExit, (900,600))
-        screen.blit(textMenu, (900, 450))
+        screen.blit(textRestart, (860,255))
+        screen.blit(textExit, (900,465))
+        screen.blit(textMenu, (880, 360))
+        screen.blit(playerText, (840, 50))
+
+        # Check which player wins and output it
+        if game.comcountfive() or game.countfive():
+            if game.countfive:
+                winningText = playerFont.render("You Win!!!", True, PlayerColor)
+            if game.comcountfive():
+                winningText = playerFont.render("CPU Wins :(", True, CPUColor)
+            screen.blit(winningText, (840,80))
 
         pygame.display.flip()
 
@@ -90,20 +108,22 @@ def start_the_game():
 
     def exitGame():
         sys.exit()
+
     # For first sprint, we assume user first (black), and computer part will be sprint 2
 
     
     while True:
         globalMousePos = pygame.mouse.get_pos()
-        screen.fill((255, 255, 0))
+        screen.fill((255, 255, 255))
         draw()
+
         if game.getFirstPlayer() == "CPU":
             game.placePieceCPU()
             game.firstPlayer = "NULL"
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                screen = pygame.display.set_mode((600, 400))
                 menu.mainloop(surface)
+                screen = pygame.display.set_mode((600, 400))
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(cols):
                     for j in range(rows):
@@ -125,16 +145,18 @@ def start_the_game():
 
             # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
+                if 860 <= globalMousePos[0] <= 1090 and 255 <= globalMousePos[1] <= 305:
                     restart()
-                elif 900 <= globalMousePos[0] <= 1090 and 400 <= globalMousePos[1] <= 555:
+                elif 880 <= globalMousePos[0] <= 1090 and 360 <= globalMousePos[1] <= 405:
                     surface = pygame.display.set_mode((600, 400))
                     menu.mainloop(surface)
 
-                elif 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
+                elif 900 <= globalMousePos[0] <= 1090 and 465 <= globalMousePos[1] <= 520:
                     pygame.quit()
                     exitGame()
-
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
 
 
@@ -205,6 +227,10 @@ def about_us():
                     menu.mainloop(surface)
                 elif 400 <= globalMouse[0] <= 400+170 and 350 <= globalMouse[1] <= 350+40:
                     trelloLink()
+
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
 
 
@@ -214,7 +240,7 @@ def gomoku_rules():
     rule_display = pygame.display.set_mode((600, 400))
     pygame.display.set_caption('Rules')
     font = pygame.font.Font('freesansbold.ttf', 16)
-    fontBig = pygame.font.Font('freesansbold.ttf', 20)
+    fontBig = pygame.font.Font('freesansbold.ttf', 30)
     text0 = fontBig.render('RULES', True, (255, 0, 0))
     textRect0 = text0.get_rect()
     textRect0.center = (300, 50)
@@ -233,10 +259,12 @@ def gomoku_rules():
     text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
     textRect5 = text5.get_rect()
     textRect5.center = (300, 300)
-    textMenu = fontBig.render('Menu', True, (0, 0, 0))
+    textMenu = fontBig.render('Menu', True, (255, 255, 255))
 
     while True :
-        mouse = pygame.mouse.get_pos()
+
+        globalMouse = pygame.mouse.get_pos()
+
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)
@@ -245,9 +273,21 @@ def gomoku_rules():
         rule_display.blit(text4, textRect4)
         rule_display.blit(text5, textRect5)
 
+
+        if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
+            pygame.draw.rect(rule_display, (100, 100, 100), [245, 350, 90, 30])
+        else:
+            pygame.draw.rect(rule_display, (0, 0, 0), [245, 350, 90, 30])
+
+        rule_display.blit(textMenu, (250, 350))
+
         for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)  
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
+                    menu.mainloop(surface)
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
     
     

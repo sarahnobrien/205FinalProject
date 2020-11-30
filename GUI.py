@@ -17,6 +17,7 @@ def set_difficulty(value, difficulty):
 
 def start_the_game():
     pygame.init()
+
     size = screenWidth,screenHeight = 1100,800
 
     # Start the gameboard
@@ -80,6 +81,7 @@ def start_the_game():
         pygame.display.flip()
 
     def restart():
+        del game
         start_the_game()
 
     def menuFromGame():

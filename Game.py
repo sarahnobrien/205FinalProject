@@ -4,6 +4,7 @@ from Intersection import Intersection
 import random
 import time
 from CPU import CPU
+import copy
 
 class Game:
     global rows, cols, boxWidth, stoneRadius
@@ -47,6 +48,11 @@ class Game:
                 row.append(0)
                 row2.append(1)
             self.objectGameBoard.append(objectRow)
+
+        # self.getGameBoard()[0][0].click("CPU")
+        # self.getGameBoard()[1][0].click("CPU")
+        # self.getGameBoard()[2][0].click("CPU")
+        # self.getGameBoard()[3][0].click("CPU")
 
     def getGameBoard(self):
         return self.objectGameBoard
@@ -98,16 +104,15 @@ class Game:
                     self.setCurrTurn("CPU")
                     self.placePieceCPU()
             elif currTurn == "CPU":
-
                  self.getGameBoard()[locI][locJ].click(currTurn)
                  self.setCurrTurn("Player")
             else:
                 return -1 # A problem occurred
 
     def placePieceCPU(self):
-        board = self.cpu.miniMaxDecision(self.getGameBoard())
-        self.objectGameBoard = board
-        self.setCurrTurn("Player")
+        i, j = self.cpu.getMove(self.getGameBoard())
+        self.placePieceGeneric(i, j)
+
 
 
 

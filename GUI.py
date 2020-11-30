@@ -17,6 +17,7 @@ def set_difficulty(value, difficulty):
 
 def start_the_game():
     pygame.init()
+
     size = screenWidth,screenHeight = 1100,800
 
     # Start the gameboard
@@ -98,6 +99,7 @@ def start_the_game():
         pygame.display.flip()
 
     def restart():
+        del game
         start_the_game()
 
     def menuFromGame():
@@ -260,7 +262,9 @@ def gomoku_rules():
     textMenu = fontBig.render('Menu', True, (255, 255, 255))
 
     while True :
+
         globalMouse = pygame.mouse.get_pos()
+
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)

@@ -67,13 +67,19 @@ class Game:
 
     def checkWin(self):
         # Check which player wins and output it
+
+        board = CPU.convertBoard(self.cpu, self.getGameBoard())
+        cpuWon = self.fiveInARow(board, 1)
+        playerWon = self.fiveInARow(board, -1)
+
         if not self.gameOver:
-            if self.countfive():
+            if playerWon > 0:
                 self.playerWins = True
                 self.gameOver = True
-            if self.comcountfive():
+            if cpuWon > 0:
                 self.computerWins = True
                 self.gameOver = True
+
 
     # Decide which player should go first (Human player or CPU), (50/50) chance
     def chooseFirstPlayerEasyDifficulty(self):
@@ -106,21 +112,40 @@ class Game:
     # Try to implement generic placePiece function, which has logic for checking whose turn it is,
     # and placing their respective piece
     def placePieceGeneric(self, locI, locJ):
+        board = CPU.convertBoard(self.cpu, self.getGameBoard())
+
         currTurn = self.getCurrTurn()
-        if not self.getGameBoard()[locI][locJ].hasStone:
+        if currTurn == "Player":
+            player = -1
+        else:
+            player = 1
+        five = self.fiveInARow(board, player)
+        print(currTurn + str(five))
+        self.checkWin()
+        if not self.getGameBoard()[locI][locJ].hasStone and not self.gameOver:
 
             # Check who's turn it is
             if currTurn == "Player":
                 self.getGameBoard()[locI][locJ].click(currTurn)
                 self.setCurrTurn("CPU")
+                board = CPU.convertBoard(self.cpu, self.getGameBoard())
+                five = self.fiveInARow(board, -1)
+                print("After player" + currTurn + str(five))
                 self.checkWin()
+
                 self.placePieceCPU()
             elif currTurn == "CPU":
                 self.getGameBoard()[locI][locJ].click(currTurn)
                 self.setCurrTurn("Player")
+                board = CPU.convertBoard(self.cpu, self.getGameBoard())
+                five = self.fiveInARow(board, 1)
+                print("After cpu" + currTurn + str(five))
                 self.checkWin()
             else:
                 return -1 # A problem occurred
+        five = self.fiveInARow(board, player)
+        board = CPU.convertBoard(self.cpu, self.getGameBoard())
+        print("Outside if statement" + currTurn + str(five))
         self.checkWin()
 
     def placePieceCPU(self):
@@ -285,3 +310,36 @@ class Game:
                     break
 
         return self.checkcom[0]
+
+    def fiveInARow(self, board, player):
+
+
+            fourCount = 0
+            # horizontal
+            for y in range(self.cols):
+                for x in range(self.rows - 3):
+                    if board[x][y] == player and board[x + 1][y] == player and board[x + 2][y] == player and \
+                            board[x + 3][y] == player and board[x + 4][y] == player:
+                        fourCount += 1
+
+                # vertical
+            for y in range(self.cols):
+                for x in range(self.rows - 3):
+                    if board[x][y] == player and board[x][y + 1] == player and board[x][y + 2] == player and board[x][
+                        y + 3] == player and board[x][y + 4] == player:
+                        fourCount += 1
+
+                # left diagonal
+            for y in range(self.cols):
+                for x in range(self.rows - 3):
+                    if board[x][y] == player and board[x + 1][y - 1] == player and board[x + 2][y - 2] == player and \
+                            board[x + 3][y - 3] == player and board[x + 4][y - 4] == player:
+                        fourCount += 1
+
+                # right diagonal
+            for y in range(self.cols):
+                for x in range(self.rows - 3):
+                    if board[x][y] == player and board[x + 1][y + 1] == player and board[x + 2][y + 2] == player and \
+                            board[x + 3][y + 3] == player and board[x + 4][y + 4] == player:
+                        fourCount += 1
+            return fourCount

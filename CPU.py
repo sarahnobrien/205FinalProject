@@ -223,8 +223,8 @@ class CPU:
         #             print(col)
         #         return action
 
-        print(minActions)
-        return actionsList[minActions.index(min(minActions))]
+
+        return actionsList[minActions.index(max(minActions))]
         # else:
         #     print("random move: " + str(random.randint(0, len(actionsList))))
         #     return actionsList[random.randint(0, len(actionsList)-1)]
@@ -281,11 +281,10 @@ class CPU:
         depth += 1
 
         #win state
-        gameOver = self.endState(gameBoard)
-        if gameOver != 0:
-            return gameOver/depth
-        # else:
-        #      return 0
+        if self.endStateCPU(gameBoard):
+            return 1000
+        elif self.endStatePlayer(gameBoard):
+            return -1000
         else:
             minActions = []
             # If not a win state generate the next set of moves
@@ -296,7 +295,7 @@ class CPU:
                 actionValue = self.getMaxValue(action, depth)
                 maxActions.append(actionValue)
 
-            print("maxActions:" + str(maxActions))
+
             return max(maxActions)
 
 
@@ -312,15 +311,16 @@ class CPU:
 
     def getMaxValue(self, gameBoard, depth):
 
-        if depth > 9:
-            return 0 - depth
+        if depth > 7:
+            return self.boardScore(gameBoard, 1)
 
         print("depth" + str(depth))
         gameOver = self.endState(gameBoard)
-        if gameOver != 0:
-            return gameOver/depth
-        # else:
-        #     return 0
+        if self.endStateCPU(gameBoard):
+            return 1000
+        elif self.endStatePlayer(gameBoard):
+            return -1000
+
         else:
             # If not a win state generate the next set of moves
             minActions = []
@@ -330,8 +330,8 @@ class CPU:
                 actionValue = self.getMinValue(action, depth)
                 minActions.append(actionValue)
 
-            print("minActions:" + str(minActions))
-            return max(minActions)
+
+            return min(minActions)
             #     if actionValue == -100:
             #         return actionValue
             # for action in minActionsList:

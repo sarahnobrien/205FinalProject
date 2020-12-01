@@ -6,6 +6,7 @@ import time
 import webbrowser
 from Intersection import Intersection
 from Game import Game
+from datetime import datetime
 
 
 pygame.init()
@@ -85,7 +86,10 @@ def start_the_game():
         screen.blit(textRestart, (860,255))
         screen.blit(textExit, (900,465))
         screen.blit(textMenu, (880, 360))
+
+        # Check if we want to display the first playe
         screen.blit(playerText, (840, 50))
+
 
         # Check which player wins and output it
         if game.comcountfive() or game.countfive():

@@ -20,18 +20,20 @@ class Game:
 
 
     def __init__(self):
+        self.gameOver = False
+        self.computerWins = False
+        self.playerWins = False
         self.rows = 15
         self.cols = 15
         self.boxWidth = 50
         self.objectGameBoard = []
         self.stoneRadius = 20
-        self.currTurn = self.chooseFirstPlayerEasyDifficulty()
         self.firstPlayer = self.chooseFirstPlayerEasyDifficulty()
+        self.currTurn = self.firstPlayer
         self.check = [False]
         self.countfiv = [0, 0, 0, 0]
         self.checkcom = [False]
         self.countfivcom = [0, 0, 0, 0]
-        print("First Player: " + self.getFirstPlayer())
         self.cpu = CPU(self.cols, self.rows)
 
 
@@ -62,6 +64,16 @@ class Game:
 
     def setCurrTurn(self, player):
         self.currTurn = player
+
+    def checkWin(self):
+        # Check which player wins and output it
+        if not self.gameOver:
+            if self.countfive():
+                self.playerWins = True
+                self.gameOver = True
+            if self.comcountfive():
+                self.computerWins = True
+                self.gameOver = True
 
     # Decide which player should go first (Human player or CPU), (50/50) chance
     def chooseFirstPlayerEasyDifficulty(self):
@@ -99,21 +111,21 @@ class Game:
 
             # Check who's turn it is
             if currTurn == "Player":
-                if not self.getGameBoard()[locI][locJ].hasStone:
-                    self.getGameBoard()[locI][locJ].click(currTurn)
-                    self.setCurrTurn("CPU")
-                    self.placePieceCPU()
+                self.getGameBoard()[locI][locJ].click(currTurn)
+                self.setCurrTurn("CPU")
+                self.checkWin()
+                self.placePieceCPU()
             elif currTurn == "CPU":
-                 self.getGameBoard()[locI][locJ].click(currTurn)
-                 self.setCurrTurn("Player")
+                self.getGameBoard()[locI][locJ].click(currTurn)
+                self.setCurrTurn("Player")
+                self.checkWin()
             else:
                 return -1 # A problem occurred
+        self.checkWin()
 
     def placePieceCPU(self):
         i, j = self.cpu.getMove(self.getGameBoard())
         self.placePieceGeneric(i, j)
-
-
 
 
     def countfive(self):

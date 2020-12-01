@@ -88,22 +88,20 @@ def start_the_game():
         screen.blit(textExit, (900,465))
         screen.blit(textMenu, (880, 360))
 
-        # Check if we want to display the first playe
-        screen.blit(playerText, (840, 50))
-
-
         # Check which player wins and output it
-        if game.comcountfive() or game.countfive():
-            if game.countfive:
+        if game.gameOver:
+            if game.playerWins:
                 winningText = playerFont.render("You Win!!!", True, PlayerColor)
-            if game.comcountfive():
+            if game.computerWins:
                 winningText = playerFont.render("CPU Wins :(", True, CPUColor)
-            screen.blit(winningText, (840,80))
+            screen.blit(winningText, (840, 80))
+
+        # Check if we want to display the first player
+        screen.blit(playerText, (840, 50))
 
         pygame.display.flip()
 
     def restart():
-        del game
         start_the_game()
 
     def menuFromGame():

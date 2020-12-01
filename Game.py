@@ -3,6 +3,8 @@ from time import sleep
 from Intersection import Intersection
 import random
 import time
+from CPU import CPU
+import copy
 
 class Game:
     global rows, cols, boxWidth, stoneRadius
@@ -30,6 +32,7 @@ class Game:
         self.checkcom = [False]
         self.countfivcom = [0, 0, 0, 0]
         print("First Player: " + self.getFirstPlayer())
+        self.cpu = CPU(self.cols, self.rows)
 
 
     def StartGameBoard(self):
@@ -45,6 +48,11 @@ class Game:
                 row.append(0)
                 row2.append(1)
             self.objectGameBoard.append(objectRow)
+
+        # self.getGameBoard()[0][0].click("CPU")
+        # self.getGameBoard()[1][0].click("CPU")
+        # self.getGameBoard()[2][0].click("CPU")
+        # self.getGameBoard()[3][0].click("CPU")
 
     def getGameBoard(self):
         return self.objectGameBoard
@@ -96,22 +104,16 @@ class Game:
                     self.setCurrTurn("CPU")
                     self.placePieceCPU()
             elif currTurn == "CPU":
-                 self.placePieceCPU()
+                 self.getGameBoard()[locI][locJ].click(currTurn)
+                 self.setCurrTurn("Player")
             else:
                 return -1 # A problem occurred
 
     def placePieceCPU(self):
+        i, j = self.cpu.getMove(self.getGameBoard())
+        self.placePieceGeneric(i, j)
 
-        piecePlaced = False
-        while not piecePlaced:
-            randColumn = random.randint(0, 14)
-            randRow = random.randint(0, 14)
 
-            if not self.getGameBoard()[randColumn][randRow].hasStone:
-                self.getGameBoard()[randColumn][randRow].click("CPU")
-                piecePlaced = True
-
-                self.setCurrTurn("Player")
 
 
     def countfive(self):

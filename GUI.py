@@ -18,6 +18,7 @@ def set_difficulty(value, difficulty):
 
 def start_the_game():
     pygame.init()
+
     size = screenWidth,screenHeight = 1100,800
 
     # Start the gameboard
@@ -102,6 +103,7 @@ def start_the_game():
         pygame.display.flip()
 
     def restart():
+        del game
         start_the_game()
 
     def menuFromGame():
@@ -124,8 +126,8 @@ def start_the_game():
             game.firstPlayer = "NULL"
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                screen = pygame.display.set_mode((600, 400))
                 menu.mainloop(surface)
+                screen = pygame.display.set_mode((600, 400))
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(cols):
                     for j in range(rows):
@@ -147,13 +149,13 @@ def start_the_game():
 
             # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if 900 <= globalMousePos[0] <= 1090 and 300 <= globalMousePos[1] <= 355:
+                if 860 <= globalMousePos[0] <= 1090 and 255 <= globalMousePos[1] <= 305:
                     restart()
-                elif 900 <= globalMousePos[0] <= 1090 and 400 <= globalMousePos[1] <= 555:
+                elif 880 <= globalMousePos[0] <= 1090 and 360 <= globalMousePos[1] <= 405:
                     surface = pygame.display.set_mode((600, 400))
                     menu.mainloop(surface)
 
-                elif 900 <= globalMousePos[0] <= 1090 and 600 <= globalMousePos[1] <= 655:
+                elif 900 <= globalMousePos[0] <= 1090 and 465 <= globalMousePos[1] <= 520:
                     pygame.quit()
                     exitGame()
             if event.type == pygame.QUIT:
@@ -229,6 +231,10 @@ def about_us():
                     menu.mainloop(surface)
                 elif 400 <= globalMouse[0] <= 400+170 and 350 <= globalMouse[1] <= 350+40:
                     trelloLink()
+
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
 
 
@@ -238,7 +244,7 @@ def gomoku_rules():
     rule_display = pygame.display.set_mode((600, 400))
     pygame.display.set_caption('Rules')
     font = pygame.font.Font('freesansbold.ttf', 16)
-    fontBig = pygame.font.Font('freesansbold.ttf', 20)
+    fontBig = pygame.font.Font('freesansbold.ttf', 30)
     text0 = fontBig.render('RULES', True, (255, 0, 0))
     textRect0 = text0.get_rect()
     textRect0.center = (300, 50)
@@ -257,10 +263,12 @@ def gomoku_rules():
     text5 = font.render('an unbroken line of 5 of your stones, in any direction. ', True, (0, 0, 0))
     textRect5 = text5.get_rect()
     textRect5.center = (300, 300)
-    textMenu = fontBig.render('Menu', True, (0, 0, 0))
+    textMenu = fontBig.render('Menu', True, (255, 255, 255))
 
     while True :
+
         globalMouse = pygame.mouse.get_pos()
+
         rule_display.fill((255, 255, 255))
         rule_display.blit(text0, textRect0)
         rule_display.blit(text1, textRect1)
@@ -269,9 +277,21 @@ def gomoku_rules():
         rule_display.blit(text4, textRect4)
         rule_display.blit(text5, textRect5)
 
+
+        if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
+            pygame.draw.rect(rule_display, (100, 100, 100), [245, 350, 90, 30])
+        else:
+            pygame.draw.rect(rule_display, (0, 0, 0), [245, 350, 90, 30])
+
+        rule_display.blit(textMenu, (250, 350))
+
         for event in pygame.event.get() : 
-            if event.type == pygame.KEYDOWN: 
-                menu.mainloop(surface)  
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 245 <= globalMouse[0] <= 245 + 90 and 350 <= globalMouse[1] <= 350 + 30:
+                    menu.mainloop(surface)
+            if event.type == pygame.QUIT:
+                screen = pygame.display.set_mode((600, 400))
+                return False
             pygame.display.update()
     
     

@@ -1,7 +1,6 @@
 import pygame
 from pygame.rect import Rect
 
-
 class Intersection:
 
     def __init__(self, left, top, width, stoneRadius):
@@ -48,10 +47,8 @@ class Intersection:
         return self.hasStone
 
     def draw(self, surface):
-        #pygame.draw.rect(surface, (255, 255, 255), self.rect)
         if self.hasStone:
             self.drawStone(surface)
-        #surface.blit(surface, (x, y))
 
     def drawStone(self, surface):
         if self.owner == "CPU":

@@ -1,12 +1,8 @@
 import pygame
-import random
 import pygame_menu
 import sys
-import time
 import webbrowser
-from Intersection import Intersection
 from Game import Game
-from datetime import datetime
 
 
 pygame.init()
@@ -54,7 +50,6 @@ def start_the_game():
         boxWidth = 50
 
         # drawing the lines for the intersections
-
         for i in range(cols):
             for j in range(rows):
                 pygame.draw.line(screen,(0,0,0),(0,boxWidth + boxWidth*i),(800,boxWidth + boxWidth*i),2)
@@ -62,7 +57,6 @@ def start_the_game():
         pygame.draw.line(screen,(0,0,0),(800,0),(800,800),20)
 
         # Drawing the stones on the board
-
         for i in range(cols):
             for j in range(rows):
                 game.getGameBoard()[i][j].draw(screen)
@@ -111,9 +105,6 @@ def start_the_game():
     def exitGame():
         sys.exit()
 
-    # For first sprint, we assume user first (black), and computer part will be sprint 2
-
-    
     while True:
         globalMousePos = pygame.mouse.get_pos()
         screen.fill((255, 255, 255))
@@ -135,15 +126,8 @@ def start_the_game():
                                 and boxWidth + boxWidth*j - clickMarginOfError <= globalMousePos[1] <= boxWidth + boxWidth*j+clickMarginOfError:
                             if game.getCurrTurn() == "Player":
                                 game.placePieceGeneric(i, j) # Place players piece
-                                print("User:", game.countfive())
-                                if game.countfive():
-                                    print("User good")
-                                # game.setCurrTurn("CPU")
                             if game.getCurrTurn() == "CPU":
                                 game.placePieceGeneric(i, j)
-                                print("CPU:", game.comcountfive())
-                                if game.comcountfive():
-                                    print("CPU good")
 
             # Detect if restart or exit button are clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -291,13 +275,6 @@ def gomoku_rules():
                 screen = pygame.display.set_mode((600, 400))
                 return False
             pygame.display.update()
-    
-    
-
-
-
-#menu = pygame_menu.Menu(300, 600, 'GOMOKU',theme=pygame_menu.themes.THEME_GREEN)
-
 
 
     if 270 <= globalMouse[0] <= 270 + 80 and 350 <= globalMouse[1] <= 350 + 40:

@@ -2,9 +2,7 @@ from time import sleep
 
 from Intersection import Intersection
 import random
-import time
 from CPU import CPU
-import copy
 
 class Game:
     global rows, cols, boxWidth, stoneRadius
@@ -51,10 +49,6 @@ class Game:
                 row2.append(1)
             self.objectGameBoard.append(objectRow)
 
-        # self.getGameBoard()[0][0].click("CPU")
-        # self.getGameBoard()[1][0].click("CPU")
-        # self.getGameBoard()[2][0].click("CPU")
-        # self.getGameBoard()[3][0].click("CPU")
 
     def getGameBoard(self):
         return self.objectGameBoard
@@ -67,7 +61,6 @@ class Game:
 
     def checkWin(self):
         # Check which player wins and output it
-
         board = CPU.convertBoard(self.cpu, self.getGameBoard())
         cpuWon = self.fiveInARow(board, 1)
         playerWon = self.fiveInARow(board, -1)
@@ -120,7 +113,6 @@ class Game:
         else:
             player = 1
         five = self.fiveInARow(board, player)
-        print(currTurn + str(five))
         self.checkWin()
         if not self.getGameBoard()[locI][locJ].hasStone and not self.gameOver:
 
@@ -130,7 +122,6 @@ class Game:
                 self.setCurrTurn("CPU")
                 board = CPU.convertBoard(self.cpu, self.getGameBoard())
                 five = self.fiveInARow(board, -1)
-                print("After player" + currTurn + str(five))
                 self.checkWin()
 
                 self.placePieceCPU()
@@ -139,13 +130,12 @@ class Game:
                 self.setCurrTurn("Player")
                 board = CPU.convertBoard(self.cpu, self.getGameBoard())
                 five = self.fiveInARow(board, 1)
-                print("After cpu" + currTurn + str(five))
                 self.checkWin()
             else:
                 return -1 # A problem occurred
         five = self.fiveInARow(board, player)
         board = CPU.convertBoard(self.cpu, self.getGameBoard())
-        print("Outside if statement" + currTurn + str(five))
+
         self.checkWin()
 
     def placePieceCPU(self):

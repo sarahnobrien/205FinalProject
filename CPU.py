@@ -16,10 +16,7 @@ class CPU:
         self.countfiv = [0, 0, 0, 0]
         self.checkcom = [False]
         self.countfivcom = [0, 0, 0, 0]
-
         oldBoard = self.convertBoard(gameBoard)
-        #board = self.miniMaxDecision(gameBoard)
-
         actions = self.getMinActions(oldBoard)
         bestCPUActionScore = 0
         bestPlayerActionScore = 0
@@ -42,8 +39,6 @@ class CPU:
             else:
                 board = actions[random.randint(0, len(actions)-1)]
         else:
-            print("player: " + str(bestPlayerActionScore))
-            print("cpu: " + str(bestCPUActionScore))
             if bestPlayerActionScore-1 > bestCPUActionScore:
                 board = playerBoard
             else:
@@ -68,24 +63,6 @@ class CPU:
             if win:
                 fives = 200
         return twos + (threes*2) + (fours * 5) + (fives*2)
-
-    # def findTwo(self, board):
-    #     list = []
-    #     for i in range(self.cols):
-    #         for j in range(self.rows):
-    #             if board[i][j] == 1:
-    #
-    #                 for k in range(-1, 2):
-    #                     for l in range(-1, 2):
-    #                         if board[k][l] == 1:
-    #                             if j == l:
-    #
-    #                             if i == k:
-    #
-    #                             choords = [i, j, k, l]
-    #                             list.append(choords)
-
-
 
     def findFour(self, board, player):
         fourCount = 0
@@ -190,44 +167,12 @@ class CPU:
     def miniMaxDecision(self, gameBoard):
 
         board = self.convertBoard(gameBoard)
-        # print("Board:")
-        # for col in board:
-        #     print(col)
-
         actionsList = self.getMinActions(board)
-
-        # print("Actions: ")
-        # actionCount = 0
-        # for action in actionsList:
-        #     print("Action: " + str(actionCount))
-        #     actionCount+=1
-        #     for col in action:
-        #         print(col)
-
         minActions = []
 
         for action in actionsList:
             minActions.append(self.getMinValue(action, 1))
-            # if self.getMinValue(action, 1) == -1:
-            #     print("Computer move:")
-            #     print("action -1:")
-            #     for col in action:
-            #         print(col)
-            #     return action
-        # for action in actionsList:
-        #     if self.getMinValue(action, 1) == 0:
-        #         print("Computer Move:")
-        #         print("Computer move:")
-        #         print("action 0:")
-        #         for col in action:
-        #             print(col)
-        #         return action
-
-
         return actionsList[minActions.index(max(minActions))]
-        # else:
-        #     print("random move: " + str(random.randint(0, len(actionsList))))
-        #     return actionsList[random.randint(0, len(actionsList)-1)]
 
 
     def getMinActions(self, gameBoard):
@@ -298,23 +243,10 @@ class CPU:
 
             return max(maxActions)
 
-
-            #     if actionValue == 100:
-            #         return actionValue
-            # for action in minActionsList:
-            #     actionValue = self.getMaxValue(action, depth)
-            #     if actionValue == 0:
-            #         return actionValue
-            # for action in minActionsList:
-            #     actionValue = self.getMaxValue(action, depth)
-            #     return actionValue
-
     def getMaxValue(self, gameBoard, depth):
 
         if depth > 7:
             return self.boardScore(gameBoard, 1)
-
-        print("depth" + str(depth))
         gameOver = self.endState(gameBoard)
         if self.endStateCPU(gameBoard):
             return 1000
@@ -332,15 +264,6 @@ class CPU:
 
 
             return min(minActions)
-            #     if actionValue == -100:
-            #         return actionValue
-            # for action in minActionsList:
-            #     actionValue = self.getMinValue(action, depth)
-            #     if actionValue == 0:
-            #         return actionValue
-            # for action in minActionsList:
-            #     actionValue = self.getMinValue(action, depth)
-            #     return actionValue
 
     def endStateCPU(self, gameBoard):
         icheckC = 0
@@ -398,7 +321,6 @@ class CPU:
 
                 if 5 in self.countfivcom:
                     self.checkcom[0] = True
-                    #print("cpu win: " + str(self.checkcom[0]))
                     return self.checkcom[0]
                 else:
                     self.countfivcom = [0, 0, 0, 0]
@@ -420,7 +342,6 @@ class CPU:
                     jcheckC = 0
                 elif icheckC == 14 and jcheckC == 14:
                     break
-        #print("cpu win: " + str(self.checkcom[0]))
         return self.checkcom[0]
 
     def endStatePlayer(self, gameBoard):
@@ -478,7 +399,6 @@ class CPU:
                     jcheck += 1
                 if 5 in self.countfiv:
                     self.check[0] = True
-                    #print("Player win: " + str(self.check[0]))
                     return self.check[0]
                 else:
                     self.countfiv = [0, 0, 0, 0]
@@ -500,7 +420,6 @@ class CPU:
                     jcheckC = 0
                 elif icheckC == 14 and jcheckC == 14:
                     break
-        #print("Player win: " + str(self.check[0]))
         return self.check[0]
 
     def endState(self, gameBoard):
